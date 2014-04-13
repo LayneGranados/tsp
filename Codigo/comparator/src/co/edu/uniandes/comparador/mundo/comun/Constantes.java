@@ -24,6 +24,11 @@ public class Constantes {
      * Label de lineas agregadas
      */
     public static String LABEL_ADD_LINE = propertiesLoader.getProperty("comparator.addline");
+    
+    /**
+     * Label de lineas eliminadas
+     */
+    public static String LABEL_DELETE_LINE = propertiesLoader.getProperty("comparator.deleteline");
 
     
 }
