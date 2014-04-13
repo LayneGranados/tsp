@@ -28,7 +28,7 @@ public class Constantes {
     /**
      * Label de lineas eliminadas
      */
-    public static String LABEL_DELETE_LINE = propertiesLoader.getProperty("comparator.deleteline");
+    public static String LABEL_DELETE_LINE = propertiesLoader.getProperty("comparator.deleteline"); 
 
     
 }
