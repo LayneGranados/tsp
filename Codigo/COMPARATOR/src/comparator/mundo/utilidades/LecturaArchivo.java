@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mundo;
+package comparator.mundo.utilidades;
 
+import comparator.mundo.comun.LineaDTO;
+import comparator.mundo.comun.ClaseDTO;
 import difflib.Chunk;
 import java.io.File;
 import java.io.IOException;
@@ -14,58 +16,24 @@ import java.util.List;
  *
  * @author laynegranadosmogollon
  */
-public class Leer 
+public class LecturaArchivo 
 {
     
-    private ArrayList<Clase> clasesVersionAntigua;
-    private ArrayList<Clase> clasesVersionNueva;
+    private ArrayList<ClaseDTO> clasesVersionAntigua;
+    private ArrayList<ClaseDTO> clasesVersionNueva;
 
     
 //INICIO_METODO
-    public Leer() 
+    public LecturaArchivo() 
     {
-        this.clasesVersionAntigua= new ArrayList<Clase>();
-        this.clasesVersionNueva= new ArrayList<Clase>();
+        this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
+        this.clasesVersionNueva= new ArrayList<ClaseDTO>();
     }
 //FIN_METODO
-
-//INICIO_METODO
-    public String buscarClasesEnCarpeta(String carpetaVersionAntigua, String carpetaVersionNueva) throws IOException 
-    {
-         try 
-         {
-             this.buscarEnHijo(carpetaVersionAntigua,this.clasesVersionAntigua);
-             this.buscarEnHijo(carpetaVersionNueva,this.clasesVersionNueva);
-         } catch (Exception e) 
-         {
-             System.out.println(e);
-         }
-         
-         String resultado=this.compararClases(this.clasesVersionAntigua, this.clasesVersionNueva);
-         this.compararDocumentos(this.clasesVersionAntigua, this.clasesVersionNueva);
-         String otroResutado="";
-         for(int i=0;i<this.clasesVersionNueva.size();i++){
-             Clase n = this.clasesVersionNueva.get(i);
-             n.getContenidoHTML();
-             if(n.getEstado().equalsIgnoreCase("H")){
-                 otroResutado+=n.getRutaRelativa()+"-->"+n.getNombre()+"\n";
-                 otroResutado+="Cantidad de Lineas Eliminadas: "+n.getLineasEliminadas().size()+"\n";
-                 for(Linea l : n.getLineasEliminadas()){
-                     otroResutado+=l.getNumeroLinea()+"--"+l.getContenido()+"\n";
-                 }
-                 otroResutado+="Cantidad de Lineas Agregadas: "+n.getLineasAgregadas().size()+"\n";
-                 for(Linea l : n.getLineasAgregadas()){
-                     otroResutado+=l.getNumeroLinea()+"++"+l.getContenido()+"\n";
-                 }
-             }
-         }
-         return resultado+otroResutado;
-    }
-//FIN_METODO
-    
+  
     
 //INICIO_METODO
-    public boolean buscarEnHijo(String path,ArrayList<Clase> listado) 
+    public boolean buscarEnHijo(String path,ArrayList<ClaseDTO> listado) 
     {
         File file = new File(path);
         if (!file.exists()) 
@@ -81,7 +49,7 @@ public class Leer
 //FIN_METODO  
 
 //INICIO_METODO
-private boolean countChildren(File dir, ArrayList<Clase> listado) 
+private boolean countChildren(File dir, ArrayList<ClaseDTO> listado) 
 {
     File[] children = dir.listFiles(); 
     boolean childrenContar = true;
@@ -97,7 +65,7 @@ private boolean countChildren(File dir, ArrayList<Clase> listado)
             boolean esJava = child.getName().contains("java");
             if(esJava)
             {
-                Clase c = new  Clase();
+                ClaseDTO c = new  ClaseDTO();
                 c.setNombre(child.getName());
                 c.setRuta(child.getAbsolutePath());
                 //c.contarMisLineas();
@@ -109,15 +77,15 @@ private boolean countChildren(File dir, ArrayList<Clase> listado)
 }
 //FIN_METODO
 
-public String compararClases(ArrayList<Clase> antigua, ArrayList<Clase> nueva){
+public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva){
     String resultadoAdicion="CLASES ADICIONADAS: ";
     String cuerpoA ="";
     int contadorA=0;
     for(int i=0;i<nueva.size();i++){
-        Clase claseNew = nueva.get(i);
+        ClaseDTO claseNew = nueva.get(i);
         boolean existe=false;
         for(int j=0;j<antigua.size();j++){
-            Clase claseOld = antigua.get(j);
+            ClaseDTO claseOld = antigua.get(j);
             if(claseNew.equals(claseOld)){
                 existe=true;
             }
@@ -135,10 +103,10 @@ public String compararClases(ArrayList<Clase> antigua, ArrayList<Clase> nueva){
     String cuerpoE ="";
     int contadorE=0;
     for(int i=0;i<antigua.size();i++){
-        Clase claseOld = nueva.get(i);
+        ClaseDTO claseOld = nueva.get(i);
         boolean existe=false;
         for(int j=0;j<nueva.size();j++){
-            Clase claseNew = nueva.get(j);
+            ClaseDTO claseNew = nueva.get(j);
             if(claseNew.equals(claseOld)){
                 existe=true;
             }
@@ -155,14 +123,14 @@ public String compararClases(ArrayList<Clase> antigua, ArrayList<Clase> nueva){
     return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n"+"\n"+"DIFERENCIAS";
 }
 
-public void compararDocumentos(ArrayList<Clase> antigua, ArrayList<Clase> nueva) throws IOException{
+public void compararDocumentos(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{
     
     for(int i=0;i<nueva.size();i++){
-        Clase claseNew = nueva.get(i);
+        ClaseDTO claseNew = nueva.get(i);
         
         if(claseNew.getEstado().equalsIgnoreCase("H")){
             for(int j=0;j<antigua.size();j++){
-                Clase claseOld = antigua.get(j);
+                ClaseDTO claseOld = antigua.get(j);
                 
                 if(claseNew.equals(claseOld)){
                     claseNew.guardarMisLineas();
@@ -176,10 +144,10 @@ public void compararDocumentos(ArrayList<Clase> antigua, ArrayList<Clase> nueva)
     }
 }
 
-private void modificarEstadoLineas(Clase claseOld, Clase claseNew, boolean orientacion) throws IOException{
+private void modificarEstadoLineas(ClaseDTO claseOld, ClaseDTO claseNew, boolean orientacion) throws IOException{
     File versionOld=new File(claseOld.getRuta());
     File versionNew=new File(claseNew.getRuta());
-    FileComparator f = new FileComparator(versionOld,versionNew);
+    ComparadorArchivo f = new ComparadorArchivo(versionOld,versionNew);
                     
     List<Chunk> cambios = f.getChangesFromOriginal();
     List<Chunk> eliminados = f.getDeletesFromOriginal();
@@ -190,7 +158,7 @@ private void modificarEstadoLineas(Clase claseOld, Clase claseNew, boolean orien
         for(int k=0;k<c.getLines().size();k++){
             if(k>0)
                 posicion++;
-            Linea l = claseNew.getLineas().get(posicion);
+            LineaDTO l = claseNew.getLineas().get(posicion);
             l.setEstado("M");
             claseNew.getLineas().set(posicion, l);
         }
@@ -202,7 +170,7 @@ private void modificarEstadoLineas(Clase claseOld, Clase claseNew, boolean orien
             for(int k=0;k<c.getLines().size();k++){
                 if(k>0)
                     posicion++;
-                Linea l = claseNew.getLineas().get(posicion);
+                LineaDTO l = claseNew.getLineas().get(posicion);
                 if(orientacion)
                     l.setEstado("A");
                 else 
@@ -219,7 +187,7 @@ private void modificarEstadoLineas(Clase claseOld, Clase claseNew, boolean orien
 
             posicion=c.getPosition();
             if(c.getLines().size()==0){
-                 Linea l = claseNew.getLineas().get(posicion);
+                 LineaDTO l = claseNew.getLineas().get(posicion);
                  if(orientacion)
                     l.setEstado("E");
                 else
@@ -229,7 +197,7 @@ private void modificarEstadoLineas(Clase claseOld, Clase claseNew, boolean orien
             for(int k=0;k<c.getLines().size();k++){
                 if(k>0)
                     posicion++;
-                Linea l = claseNew.getLineas().get(posicion);
+                LineaDTO l = claseNew.getLineas().get(posicion);
                 if(orientacion)
                     l.setEstado("E");
                 else

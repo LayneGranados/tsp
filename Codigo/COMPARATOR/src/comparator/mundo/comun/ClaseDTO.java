@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mundo;
+package comparator.mundo.comun;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,42 +14,37 @@ import java.util.Objects;
  *
  * @author laynegranadosmogollon
  */
-public class Clase 
+public class ClaseDTO 
 {
     
     private String nombre;
     private String ruta;
     private String rutaRelativa;
-    private ArrayList<Linea> lineasAgregadas;
-    private ArrayList<Linea> lineasEliminadas;
-    private ArrayList<Linea> lineas;
+    
+    private ArrayList<LineaDTO> lineas;
     private String estado;
     //private int cantidadLineasLogicas;
     
 
     
 //INICIO_METODO
-    public Clase() 
+    public ClaseDTO() 
     {
         this.estado="H";
-        this.lineas=new ArrayList<Linea>();
-        this.lineasAgregadas=new ArrayList<Linea>();
-        this.lineasEliminadas=new ArrayList<Linea>();
+        this.lineas=new ArrayList<LineaDTO>();
         //this.cantidadLineasLogicas=0;
     }
 //FIN_METODO
 
     
 //INICIO_METODO
-    public Clase(String nombre, String ruta) 
+    public ClaseDTO(String nombre, String ruta) 
     {
         this.nombre = nombre;
         this.ruta = ruta;
         this.rutaRelativa = ruta.split("src/")[1];
         this.estado="H";
-        this.lineas=new ArrayList<Linea>();
-        this.lineasAgregadas=new ArrayList<Linea>();
-        this.lineasEliminadas=new ArrayList<Linea>();
+        this.lineas=new ArrayList<LineaDTO>();
         //this.cantidadLineasLogicas=0;
     }
 //FIN_METODO
@@ -99,27 +94,13 @@ public class Clase
         this.estado = estado;
     }
 
-    public ArrayList<Linea> getLineasAgregadas() {
-        return lineasAgregadas;
-    }
+    
 
-    public void setLineasAgregadas(ArrayList<Linea> lineasAgregadas) {
-        this.lineasAgregadas = lineasAgregadas;
-    }
-
-    public ArrayList<Linea> getLineasEliminadas() {
-        return lineasEliminadas;
-    }
-
-    public void setLineasEliminadas(ArrayList<Linea> lineasEliminadas) {
-        this.lineasEliminadas = lineasEliminadas;
-    }
-
-    public ArrayList<Linea> getLineas() {
+    public ArrayList<LineaDTO> getLineas() {
         return lineas;
     }
 
-    public void setLineas(ArrayList<Linea> lineas) {
+    public void setLineas(ArrayList<LineaDTO> lineas) {
         this.lineas = lineas;
     }
     
@@ -146,7 +127,7 @@ public class Clase
             while ((linea = br.readLine()) != null) 
             {
                 contador++;
-                Linea l = new Linea(contador,linea, "N");
+                LineaDTO l = new LineaDTO(contador,linea, "N");
                 this.lineas.add(l);
             }
         } catch (Exception e) 
@@ -185,7 +166,7 @@ public class Clase
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Clase other = (Clase) obj;
+        final ClaseDTO other = (ClaseDTO) obj;
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
@@ -202,7 +183,7 @@ public class Clase
         String auxHTMLCierra="";
         String auxContenido="";
         for(int i=0;i<this.getLineas().size();i++){
-            Linea l = this.getLineas().get(i);
+            LineaDTO l = this.getLineas().get(i);
             if(!l.getEstado().equalsIgnoreCase("N")){
                 auxHTMLAbre="<b><i><u style=\"background: #FF00\">";
                 auxHTMLCierra="</u></i></b>";

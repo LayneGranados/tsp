@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mundo;
+package comparator.mundo.comun;
 
 import java.util.Objects;
 
@@ -10,16 +10,16 @@ import java.util.Objects;
  *
  * @author laynegranadosmogollon
  */
-public class Linea {
+public class LineaDTO {
     
     private int numeroLinea;
     private String contenido;
     private String estado;// puede ser "A" de agregada, "E" de eliminada y "M" de modificada o "N" de normal
 
-    public Linea() {
+    public LineaDTO() {
     }
 
-    public Linea(int numeroLinea, String contenido, String estado) {
+    public LineaDTO(int numeroLinea, String contenido, String estado) {
         this.contenido = contenido;
         this.numeroLinea = numeroLinea; 
         this.estado = estado; 
@@ -70,7 +70,7 @@ public class Linea {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Linea other = (Linea) obj;
+        final LineaDTO other = (LineaDTO) obj;
         if (!Objects.equals(this.contenido, other.contenido)) {
             return false;
         }

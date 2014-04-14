@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mundo;
+package comparator.mundo.utilidades;
 
 import java.io.IOException;
 

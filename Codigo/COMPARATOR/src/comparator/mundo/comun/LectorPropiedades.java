@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniandes.comparador.mundo.comun;
+package comparator.mundo.comun;
 
 import java.io.IOException;
 import java.io.InputStream;

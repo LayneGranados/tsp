@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mundo;
+package comparator.mundo.utilidades;
 
 
  
@@ -18,13 +18,13 @@ import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
  
-public class FileComparator {
+public class ComparadorArchivo {
  
     private final File original;
  
     private final File revised;
  
-    public FileComparator(File original, File revised) {
+    public ComparadorArchivo(File original, File revised) {
         this.original = original;
         this.revised = revised;
     }

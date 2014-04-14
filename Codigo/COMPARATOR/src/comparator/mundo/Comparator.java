@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mundo;
+package comparator.mundo.utilidades;
 
+import comparator.mundo.comun.ClaseDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,39 +14,50 @@ import java.util.ArrayList;
  */
 public class Comparator {
     
-    private ArrayList<Clase> clasesVersionAntigua;
-    private ArrayList<Clase> clasesVersionNueva;
+    private ArrayList<ClaseDTO> clasesVersionAntigua;
+    private ArrayList<ClaseDTO> clasesVersionNueva;
     private String rutaAntigua;
     private String rutaNueva;
     
 
     public Comparator() {
-        this.clasesVersionAntigua= new ArrayList<Clase>();
-        this.clasesVersionNueva= new ArrayList<Clase>();
+        this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
+        this.clasesVersionNueva= new ArrayList<ClaseDTO>();
     }
     
     public Comparator(String rutaAntigua, String rutaNueva) {
-        this.clasesVersionAntigua= new ArrayList<Clase>();
-        this.clasesVersionNueva= new ArrayList<Clase>();
+        this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
+        this.clasesVersionNueva= new ArrayList<ClaseDTO>();
         this.rutaAntigua= rutaAntigua;
         this.rutaNueva=rutaNueva;
     }
     
     private void crearClases(){
-        Leer l = new Leer();
+        LecturaArchivo l = new LecturaArchivo();
         l.buscarEnHijo(this.rutaAntigua,this.clasesVersionAntigua);
         l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
+    }
+    
+    private void crearClasesNuevas(){
+        LecturaArchivo l = new LecturaArchivo();
+        l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
+        
+    }
+    
+    private void crearClasesAntiguas(){
+        LecturaArchivo l = new LecturaArchivo();
+        l.buscarEnHijo(this.rutaAntigua,this.clasesVersionAntigua);
     }
     
     public String[] realizarCalculos() throws IOException{
         String[] calculos = new String[5];
         this.crearClases();
-        Leer l = new Leer();
+        LecturaArchivo l = new LecturaArchivo();
         calculos [0]= l.compararClases(clasesVersionAntigua, clasesVersionNueva);
         l.compararDocumentos(clasesVersionAntigua, clasesVersionNueva);
-        for(Clase n : this.clasesVersionNueva){
+        for(ClaseDTO n : this.clasesVersionNueva){
             if(n.getEstado().equalsIgnoreCase("H")){
-                for(Clase a:this.clasesVersionAntigua){
+                for(ClaseDTO a:this.clasesVersionAntigua){
                     if(a.getNombre().equalsIgnoreCase(n.getNombre())){// arreglar para que tambien compare rutas relativas
                         
                         calculos[1]=n.getRuta();
