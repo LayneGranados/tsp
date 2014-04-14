@@ -13,7 +13,7 @@ public class Constantes {
     /**
      * Ruta y nombre del archivo de propiedades 
      */
-    public static String PROPERTIES_FILE_NAME = "comparador-config.properties";
+    public static String RUTA_ARCHIVO_PROPIEDADES = "comparador-config.properties";
     
     /**
      * Cargar las propiedades
@@ -23,12 +23,12 @@ public class Constantes {
     /**
      * Label de lineas agregadas
      */
-    public static String LABEL_ADD_LINE = propertiesLoader.getProperty("comparator.addline");
+    public static String LABEL_LINEA_AGREGADA = propertiesLoader.getProperty("comparator.addline");
     
     /**
      * Label de lineas eliminadas
      */
-    public static String LABEL_DELETE_LINE = propertiesLoader.getProperty("comparator.deleteline"); 
+    public static String LABEL_LINEA_BORRADA = propertiesLoader.getProperty("comparator.deleteline"); 
 
     
 }

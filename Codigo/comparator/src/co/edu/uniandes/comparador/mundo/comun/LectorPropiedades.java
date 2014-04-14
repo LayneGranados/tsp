@@ -37,7 +37,7 @@ public class LectorPropiedades {
     public static Properties load() {
         try {
             ClassLoader claslLoader = LectorPropiedades.class.getClassLoader();
-            InputStream inputStream = claslLoader.getResourceAsStream(Constantes.PROPERTIES_FILE_NAME);
+            InputStream inputStream = claslLoader.getResourceAsStream(Constantes.RUTA_ARCHIVO_PROPIEDADES);
             properties.load(inputStream);
         } catch (IOException e) {
             System.err.println("Error cargando archivo de propiedades " + e.getMessage());
