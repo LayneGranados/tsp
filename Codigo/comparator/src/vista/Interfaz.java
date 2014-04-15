@@ -27,6 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import comparator.mundo.Fachada;
+import comparator.mundo.comun.ClaseDTO;
 import comparator.mundo.utilidades.LecturaArchivo;
 
 /**
@@ -35,8 +36,8 @@ import comparator.mundo.utilidades.LecturaArchivo;
  */
 public class Interfaz extends javax.swing.JFrame {
 
-    private Fachada f;
-    private JLabel selectedLabel;
+    private final Fachada f;
+    private String res;
     private String rutaProyecto;
     
     /**
@@ -44,13 +45,16 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
-        f= new Fachada();
         this.eliminarTodos();
+        this.f=new Fachada();
+        res="";
         final JTree tree = this.treeDirectorios;
         tree.addTreeSelectionListener(new TreeSelectionListener() {
         public void valueChanged(TreeSelectionEvent e) {
         MyNode nseleccionado = (MyNode) tree.getLastSelectedPathComponent();
-        System.out.println("ruta del nodo: "+nseleccionado.getRuta());
+        res = nseleccionado.getRuta();
+        
+        
     }
 });
         this.treeDirectorios = tree;
@@ -100,9 +104,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         editorAntigua.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Version Anterior"));
         jScrollPane2.setViewportView(editorAntigua);
+        editorAntigua.getAccessibleContext().setAccessibleParent(jScrollPane4);
 
         editorNueva.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Nueva Versión"));
         jScrollPane3.setViewportView(editorNueva);
+        editorNueva.getAccessibleContext().setAccessibleParent(jScrollPane5);
 
         treeDirectorios.setBorder(javax.swing.BorderFactory.createTitledBorder("Carpetas y Archivos del Proyecto"));
         jScrollPane4.setViewportView(treeDirectorios);
@@ -134,25 +140,23 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(14, Short.MAX_VALUE)
+                        .add(0, 0, Short.MAX_VALUE)
                         .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 464, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 463, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 467, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(17, 17, 17)
-                                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(btnComparar)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(btnCalcular, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 134, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 467, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(17, 17, 17)
+                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(btnComparar)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnCalcular, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 134, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -275,22 +279,7 @@ public class Interfaz extends javax.swing.JFrame {
     
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         // TODO add your handling code here:
-        //INICIO_CODIGO
-            String[] res = new String [5];
-        try {
-            res = f.calcularComparacion(this.txtRutaVersionNueva.getText(), this.txtRutaVersionNueva.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
-  
-       
-            this.txtResultados.setText(res[0]);
-            this.editorAntigua.setContentType("text/html");
-            this.editorAntigua.setText(res[4]);
-            this.editorNueva.setContentType("text/html");
-            this.editorNueva.setText(res[2]);
-            
-        //FIN_CODIGO
+        
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void btnSeleccionarVersionNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarVersionNuevaActionPerformed
@@ -309,16 +298,15 @@ public class Interfaz extends javax.swing.JFrame {
            MyNode nroot = new MyNode(this.rutaProyecto,"Árbol de directorios");
            arbol.setRoot(nroot);
            CargaEstructuraDirectorios(arbol, nroot, this.txtRutaVersionNueva.getText());
-           String[] res = new String [5];
+           String res ="";
             try {
-                File fo = new File(this.rutaProyecto);
-                File[] childs = fo.listFiles();
-                res = f.calcularComparacion(this.rutaProyecto, this.txtRutaVersionNueva.getText());
+                f.inicializarComparator(rutaProyecto);
+                res = f.calcularComparacion(this.txtRutaVersionNueva.getText());
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-            this.txtResultados.setText(res[0]);
+            this.txtResultados.setText(res);
         }
         else
         {
@@ -328,7 +316,43 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSeleccionarVersionNuevaActionPerformed
 
     private void btnCompararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompararActionPerformed
-        // TODO add your handling code here:
+        //INICIO_CODIGO
+            String[] res = new String [4];
+        
+  
+       
+            
+        
+        try {
+            // TODO add your handling code here:
+            ClaseDTO c = this.f.buscarClasdeRuta(this.res);
+            if(c.getEstado().equalsIgnoreCase("A")){
+                this.lblArchivoSeleccionado.setText("Archivo Seleccionado: Archivo nuevo, no puede ser comparado");
+            }
+            else
+                if(!c.isEsTextoPlano()){
+                    this.lblArchivoSeleccionado.setText("Archivo Seleccionado: Formato inválido, no puede ser comparado");
+                }
+                else{
+                    this.lblArchivoSeleccionado.setText("Archivo Seleccionado:" +c.getRutaRelativa());
+                    res = f.compararDosClases(c);
+                    this.editorAntigua.setContentType("text/html");
+                    this.editorAntigua.setText("");
+                    this.editorAntigua.setText(res[3]);
+                    System.out.println("antigua: "+res[3]);
+                    this.editorNueva.setContentType("text/html");
+                    this.editorNueva.setText("");
+                    this.editorNueva.setText(res[1]);
+                    System.out.println("nueva: "+res[1]);
+                }
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            
+            
+        //FIN_CODIGO
+        
     }//GEN-LAST:event_btnCompararActionPerformed
 
     /**

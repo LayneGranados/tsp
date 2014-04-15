@@ -48,17 +48,6 @@ public class Comparator {
         l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
     }
     
-    private void crearClasesNuevas(){
-        LecturaArchivo l = new LecturaArchivo();
-        l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
-        
-    }
-    
-    private void crearClasesAntiguas(){
-        LecturaArchivo l = new LecturaArchivo();
-        l.buscarEnHijo(this.rutaAntigua,this.clasesVersionAntigua);
-    }
-    
     public String[] realizarCalculos() throws IOException{
         String[] calculos = new String[5];
         this.crearClases();
@@ -69,7 +58,6 @@ public class Comparator {
             if(n.getEstado().equalsIgnoreCase("H")){
                 for(ClaseDTO a:this.clasesVersionAntigua){
                     if(a.getNombre().equalsIgnoreCase(n.getNombre())){// arreglar para que tambien compare rutas relativas
-                        
                         calculos[1]=n.getRuta();
                         calculos[2]=n.getContenidoHTML();
                         calculos[3]=a.getRuta();
@@ -79,6 +67,41 @@ public class Comparator {
             }
         }
         return calculos;
+    }
+    
+    public String compararProyectos() throws IOException{
+        this.crearClases();
+        LecturaArchivo l = new LecturaArchivo();
+        return l.compararClases(clasesVersionAntigua, clasesVersionNueva);
+    }
+    
+    public String[] compararDosClases(ClaseDTO n) throws IOException{
+        String[] calculos = new String[4];
+        LecturaArchivo l = new LecturaArchivo();
+        
+        for(ClaseDTO a:this.clasesVersionAntigua){
+            if(a.getRutaRelativa().equalsIgnoreCase(n.getRutaRelativa())){// arreglar para que tambien compare rutas relativas
+                n.guardarMisLineas();
+                a.guardarMisLineas();
+                l.modificarEstadoLineas(a, n, true);
+                l.modificarEstadoLineas(n, a, false);
+                calculos[0]=n.getRuta();
+                calculos[1]=n.getContenidoHTML();
+                calculos[2]=a.getRuta();
+                calculos[3]=a.getContenidoHTML();
+            }
+        }   
+        return calculos;
+    }
+    
+    public ClaseDTO buscarClaseDeArchivoSeleccionado(String rutaArchivoSeleccionado){
+        ClaseDTO seleccionada=null;
+        for(int i=0;i<this.clasesVersionNueva.size()&&seleccionada==null;i++){
+            ClaseDTO c = this.clasesVersionNueva.get(i);
+            if(c.getRuta().equalsIgnoreCase(rutaArchivoSeleccionado))
+                seleccionada = c;
+        }
+        return seleccionada;
     }
     
     

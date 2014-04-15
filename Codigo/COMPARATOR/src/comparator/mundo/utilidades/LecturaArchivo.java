@@ -63,17 +63,14 @@ private boolean countChildren(File dir, ArrayList<ClaseDTO> listado, String ruta
             }  
             if (child.exists()&&!child.isDirectory()) 
             {
-                //boolean esJava = child.getName().contains("java");
-                //if(esJava)
-                //{
-                    ClaseDTO c = new  ClaseDTO();
-                    c.setNombre(child.getName());
-                    c.setRuta(child.getAbsolutePath());
-                    c.setRutaProyecto(rutaProyecto);
-                    c.setRutaRelativa(c.getRuta().substring(c.getRutaProyecto().length()));
-                    c.isFormatValid();
-                    listado.add(c);
-                //}
+                ClaseDTO c = new  ClaseDTO();
+                c.setNombre(child.getName());
+                c.setRuta(child.getAbsolutePath());
+                c.setRutaProyecto(rutaProyecto);
+                c.setRutaRelativa(c.getRuta().substring(c.getRutaProyecto().length()));
+                c.isFormatValid();
+                listado.add(c);
+            
             }
         }
     } 
@@ -148,7 +145,7 @@ public void compararDocumentos(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> 
     }
 }
 
-private void modificarEstadoLineas(ClaseDTO claseOld, ClaseDTO claseNew, boolean orientacion) throws IOException{
+public void modificarEstadoLineas(ClaseDTO claseOld, ClaseDTO claseNew, boolean orientacion) throws IOException{
     File versionOld=new File(claseOld.getRuta());
     File versionNew=new File(claseNew.getRuta());
     ComparadorArchivo f = new ComparadorArchivo(versionOld,versionNew);

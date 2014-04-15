@@ -206,7 +206,9 @@ public class ClaseDTO
         return true;
     }
 //FIN_METODO  
-    
+    //F2A7A7 rojo eliminadas
+    //A7F2BE verde modificadas
+    //F7FD8B amarillo adicionadas
     public String getContenidoHTML(){
         String html="<html>";
         String auxHTMLAbre="";
@@ -214,24 +216,30 @@ public class ClaseDTO
         String auxContenido="";
         for(int i=0;i<this.getLineas().size();i++){
             LineaDTO l = this.getLineas().get(i);
-            if(!l.getEstado().equalsIgnoreCase("N")){
-                auxHTMLAbre="<b><i><u style=\"background: #FF00\">";
-                auxHTMLCierra="</u></i></b>";
+                
+            if(l.getEstado().equalsIgnoreCase("A")){
+                auxContenido="++ ";
+                auxHTMLAbre="<b style=\"background:#F7FD8B\">";
+                auxHTMLCierra="</b>";
+            }   
+            if(l.getEstado().equalsIgnoreCase("E")){
+                auxContenido="-- ";
+                auxHTMLAbre="<b style=\"background:#F2A7A7\">";
+                auxHTMLCierra="</b>";
             }
-            else{
+            if(l.getEstado().equalsIgnoreCase("M")){
+                auxHTMLAbre="<b style=\"background:#A7F2BE\">";
+                auxHTMLCierra="</b>";
+                auxContenido="m ";
+            }
+            if(l.getEstado().equalsIgnoreCase("N")){
                 auxHTMLAbre="";
                 auxHTMLCierra="";
+                auxContenido="== ";
             }
                 
-            if(l.getEstado().equalsIgnoreCase("A"))
-                auxContenido="++ ";
-            if(l.getEstado().equalsIgnoreCase("E"))
-                auxContenido="-- ";
-            if(l.getEstado().equalsIgnoreCase("M"))
-                auxContenido="m";
-            if(l.getEstado().equalsIgnoreCase("N"))
-                auxContenido="== ";
-            html+="<p>"+auxHTMLAbre+l.getNumeroLinea()+auxContenido+l.getContenido().replaceAll("\"", "&#34;")+auxHTMLCierra+"</p>";
+            html+="<p>"+auxHTMLAbre+l.getNumeroLinea()+auxContenido+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+
+                    auxHTMLCierra+"</p>";
         }
         html+="</html>";
         return html;
@@ -247,7 +255,7 @@ public void isFormatValid(){
             if(this.getFormato().equalsIgnoreCase(formatos[i]))
                 valido=true;
         }
-        this.setEsTextoPlano(esTextoPlano);
+        this.setEsTextoPlano(valido);
     }catch(Exception e){
         this.setEsTextoPlano(false);
     }
