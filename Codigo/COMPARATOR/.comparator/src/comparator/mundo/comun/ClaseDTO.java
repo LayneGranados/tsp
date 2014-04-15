@@ -20,11 +20,9 @@ public class ClaseDTO
     private String nombre;
     private String ruta;
     private String rutaRelativa;
-    private String rutaProyecto;
+    
     private ArrayList<LineaDTO> lineas;
     private String estado;
-    private String formato;
-    private boolean esTextoPlano;
     //private int cantidadLineasLogicas;
     
 
@@ -34,24 +32,19 @@ public class ClaseDTO
     {
         this.estado="H";
         this.lineas=new ArrayList<LineaDTO>();
-        this.esTextoPlano=false;
-        this.rutaProyecto="";
-        this.rutaRelativa="";
         //this.cantidadLineasLogicas=0;
     }
 //FIN_METODO
 
     
 //INICIO_METODO
-    public ClaseDTO(String nombre, String ruta, String rutaProyecto) 
+    public ClaseDTO(String nombre, String ruta) 
     {
         this.nombre = nombre;
         this.ruta = ruta;
+        this.rutaRelativa = ruta.split("src/")[1];
         this.estado="H";
         this.lineas=new ArrayList<LineaDTO>();
-        this.rutaProyecto = rutaProyecto;
-        this.esTextoPlano=false;
-        this.rutaRelativa="";
         //this.cantidadLineasLogicas=0;
     }
 //FIN_METODO
@@ -110,30 +103,7 @@ public class ClaseDTO
     public void setLineas(ArrayList<LineaDTO> lineas) {
         this.lineas = lineas;
     }
-
-    public String getRutaProyecto() {
-        return rutaProyecto;
-    }
-
-    public void setRutaProyecto(String rutaProyecto) {
-        this.rutaProyecto = rutaProyecto;
-    }
-
-    public boolean isEsTextoPlano() {
-        return esTextoPlano;
-    }
-
-    public void setEsTextoPlano(boolean esTextoPlano) {
-        this.esTextoPlano = esTextoPlano;
-    }
-
-    public String getFormato() {
-        return formato;
-    }
-
-    public void setFormato(String formato) {
-        this.formato = formato;
-    }
+    
     
 //INICIO_METODO
     public void guardarMisLineas()
@@ -236,26 +206,6 @@ public class ClaseDTO
         html+="</html>";
         return html;
     }
-    
-public void isFormatValid(){
-    try{
-        boolean valido = false;
-        String [] formatos = {"java","txt","sql","properties","html","xml"};
-        String [] partes = this.getNombre().split("\\.");
-        this.setFormato(partes[partes.length-1]);
-        for(int i=0;i<formatos.length&&!valido;i++){
-            if(this.getFormato().equalsIgnoreCase(formatos[i]))
-                valido=true;
-        }
-        this.setEsTextoPlano(esTextoPlano);
-    }catch(Exception e){
-        this.setEsTextoPlano(false);
-    }
-    
-    
-    
-}
-
     
     
     

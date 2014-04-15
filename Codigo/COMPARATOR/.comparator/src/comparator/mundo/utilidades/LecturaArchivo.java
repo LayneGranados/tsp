@@ -44,38 +44,34 @@ public class LecturaArchivo
         {
             return true;
         }
-    return this.countChildren(file, listado, path); //&& file.delete();  
+    return this.countChildren(file, listado); //&& file.delete();  
 }  
 //FIN_METODO  
 
 //INICIO_METODO
-private boolean countChildren(File dir, ArrayList<ClaseDTO> listado, String rutaProyecto) 
+private boolean countChildren(File dir, ArrayList<ClaseDTO> listado) 
 {
     File[] children = dir.listFiles(); 
     boolean childrenContar = true;
     for (int i = 0;children != null && i < children.length; i++) 
-    {
+    {  
         File child = children[i]; 
-        if(!child.getName().equalsIgnoreCase(".comparator")){
-            if (child.isDirectory()) 
+        if (child.isDirectory()) 
+        {
+            childrenContar = this.countChildren(child, listado) && childrenContar;
+        }  
+        if (child.exists()) 
+        {
+            boolean esJava = child.getName().contains("java");
+            if(esJava)
             {
-                childrenContar = this.countChildren(child, listado, rutaProyecto) && childrenContar;
-            }  
-            if (child.exists()&&!child.isDirectory()) 
-            {
-                //boolean esJava = child.getName().contains("java");
-                //if(esJava)
-                //{
-                    ClaseDTO c = new  ClaseDTO();
-                    c.setNombre(child.getName());
-                    c.setRuta(child.getAbsolutePath());
-                    c.setRutaProyecto(rutaProyecto);
-                    c.setRutaRelativa(c.getRuta().substring(c.getRutaProyecto().length()));
-                    c.isFormatValid();
-                    listado.add(c);
-                //}
+                ClaseDTO c = new  ClaseDTO();
+                c.setNombre(child.getName());
+                c.setRuta(child.getAbsolutePath());
+                //c.contarMisLineas();
+                listado.add(c);
             }
-        }
+        }  
     } 
     return childrenContar;  
 }
@@ -88,7 +84,7 @@ public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nu
     for(int i=0;i<nueva.size();i++){
         ClaseDTO claseNew = nueva.get(i);
         boolean existe=false;
-        for(int j=0;j<antigua.size()&&!existe;j++){
+        for(int j=0;j<antigua.size();j++){
             ClaseDTO claseOld = antigua.get(j);
             if(claseNew.equals(claseOld)){
                 existe=true;
@@ -96,7 +92,7 @@ public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nu
         }
         if(!existe){
             contadorA++;
-            cuerpoA+="- "+claseNew.getRutaRelativa()+"\n";
+            cuerpoA+=claseNew.getNombre()+"\n";
             claseNew.setEstado("A");
             nueva.set(i, claseNew);
         }
@@ -107,9 +103,9 @@ public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nu
     String cuerpoE ="";
     int contadorE=0;
     for(int i=0;i<antigua.size();i++){
-        ClaseDTO claseOld = antigua.get(i);
+        ClaseDTO claseOld = nueva.get(i);
         boolean existe=false;
-        for(int j=0;j<nueva.size()&&!existe;j++){
+        for(int j=0;j<nueva.size();j++){
             ClaseDTO claseNew = nueva.get(j);
             if(claseNew.equals(claseOld)){
                 existe=true;
@@ -117,14 +113,14 @@ public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nu
         }
         if(!existe){
             contadorE++;
-            cuerpoE+="- "+claseOld.getRutaRelativa()+"\n";
+            cuerpoE+=claseOld.getNombre()+"\n";
             claseOld.setEstado("E");
             antigua.set(i, claseOld);
         }
     }
     resultadoEliminacion+=contadorE+"\n";
     
-    return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n";
+    return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n"+"\n"+"DIFERENCIAS";
 }
 
 public void compararDocumentos(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{
@@ -185,6 +181,8 @@ private void modificarEstadoLineas(ClaseDTO claseOld, ClaseDTO claseNew, boolean
     }
     
     if(orientacion){
+        
+                    
         for(Chunk c: eliminados){
 
             posicion=c.getPosition();
@@ -208,6 +206,7 @@ private void modificarEstadoLineas(ClaseDTO claseOld, ClaseDTO claseNew, boolean
             }
         }
     }
+    
 }
 
 

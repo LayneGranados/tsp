@@ -26,7 +26,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
-import comparator.mundo.Fachada;
+import comparator.mundo.utilidades.Fachada;
 import comparator.mundo.utilidades.LecturaArchivo;
 
 /**
@@ -37,7 +37,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private Fachada f;
     private JLabel selectedLabel;
-    private String rutaProyecto;
+    private final ArrayList<String> nombresFinal;
     
     /**
      * Creates new form Interfaz
@@ -47,10 +47,23 @@ public class Interfaz extends javax.swing.JFrame {
         f= new Fachada();
         this.eliminarTodos();
         final JTree tree = this.treeDirectorios;
+        this.nombresFinal = new ArrayList<String>();
         tree.addTreeSelectionListener(new TreeSelectionListener() {
         public void valueChanged(TreeSelectionEvent e) {
-        MyNode nseleccionado = (MyNode) tree.getLastSelectedPathComponent();
-        System.out.println("ruta del nodo: "+nseleccionado.getRuta());
+        DefaultMutableTreeNode nseleccionado = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        Enumeration enums = nseleccionado.children();
+        
+        String nombre = nseleccionado.getUserObject().toString();
+        boolean res = nombre.contains(".java");
+        if(nseleccionado.getParent()==null&&!enums.hasMoreElements()&&res)
+            nombresFinal.add(nombre);
+        if(!enums.hasMoreElements()&&res){
+            while(nseleccionado.getParent()!=null){
+                nombre = nseleccionado.getUserObject().toString();
+                nombresFinal.add(nombresFinal.size(), nombre);
+                nseleccionado = (DefaultMutableTreeNode)nseleccionado.getParent();
+            }
+        }  
     }
 });
         this.treeDirectorios = tree;
@@ -79,10 +92,8 @@ public class Interfaz extends javax.swing.JFrame {
         treeDirectorios = new javax.swing.JTree();
         jScrollPane5 = new javax.swing.JScrollPane();
         txtResultados = new javax.swing.JTextArea();
-        lblArchivoSeleccionado = new javax.swing.JLabel();
-        btnCalcular = new javax.swing.JButton();
-        btnComparar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        btnCalcular = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,65 +123,30 @@ public class Interfaz extends javax.swing.JFrame {
         txtResultados.setBorder(javax.swing.BorderFactory.createTitledBorder("Resumen de Cambios"));
         jScrollPane5.setViewportView(txtResultados);
 
-        lblArchivoSeleccionado.setText("Archivo Seleccionado:");
-        lblArchivoSeleccionado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        btnCalcular.setText("Agregar Versión");
-        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalcularActionPerformed(evt);
-            }
-        });
-
-        btnComparar.setText("Comparar");
-        btnComparar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCompararActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(14, Short.MAX_VALUE)
-                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 464, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 463, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 467, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(17, 17, 17)
-                                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(btnComparar)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(btnCalcular, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 134, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jScrollPane4)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
+                .add(14, 14, 14)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jScrollPane5)
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(0, 9, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                        .add(lblArchivoSeleccionado)
-                        .add(btnComparar))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnCalcular))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                    .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                    .add(jScrollPane5))
+                .add(6, 6, 6)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                     .add(jScrollPane3))
                 .addContainerGap())
         );
@@ -185,61 +161,73 @@ public class Interfaz extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 640, Short.MAX_VALUE)
+            .add(0, 609, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel3);
+
+        btnCalcular.setText("Agregar Versión");
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jLabel2)
-                .add(422, 422, 422))
+                .addContainerGap()
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 974, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .add(layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 974, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(18, 18, 18)
                         .add(jLabel3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 746, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSeleccionarVersionNueva)))
-                .add(12, 12, 12))
+                        .add(133, 133, 133))
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(btnSeleccionarVersionNueva)
+                        .add(btnCalcular, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 134, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(layout.createSequentialGroup()
+                .add(423, 423, 423)
+                .add(jLabel2)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(9, 9, 9)
                 .add(jLabel2)
-                .add(13, 13, 13)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(btnSeleccionarVersionNueva))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 9, Short.MAX_VALUE)
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 686, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnCalcular)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 655, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(7, 7, 7))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CargaEstructuraDirectorios(DefaultTreeModel arbol, MyNode padre, String ruta) {
-    MyNode aux = null;
+    private void CargaEstructuraDirectorios(DefaultTreeModel arbol, DefaultMutableTreeNode padre, String ruta) {
+    DefaultMutableTreeNode aux = null;
  
     File archivo = new File(ruta);
     File[] archivos = archivo.listFiles();
  
     if (archivos != null) {
         for (int i = 0; i < archivos.length; i++) {
-            File archi = archivos[i];
-            aux = new MyNode(archi.getAbsolutePath(),archi.getName());
+ 
+            aux = new DefaultMutableTreeNode(archivos[i].getName());
             arbol.insertNodeInto(aux, padre, i); 
  
             if (archivos[i].isDirectory()) {
@@ -282,8 +270,6 @@ public class Interfaz extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
-  
-       
             this.txtResultados.setText(res[0]);
             this.editorAntigua.setContentType("text/html");
             this.editorAntigua.setText(res[4]);
@@ -303,21 +289,17 @@ public class Interfaz extends javax.swing.JFrame {
         int returnVal = chooser.showOpenDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION) 
         {
-           this.rutaProyecto = chooser.getSelectedFile().getAbsolutePath();
-           this.txtRutaVersionNueva.setText(this.rutaProyecto);
+           this.txtRutaVersionNueva.setText(chooser.getSelectedFile().getAbsolutePath());
            DefaultTreeModel arbol = (DefaultTreeModel) this.treeDirectorios.getModel();
-           MyNode nroot = new MyNode(this.rutaProyecto,"Árbol de directorios");
+           DefaultMutableTreeNode nroot = new DefaultMutableTreeNode("Árbol de directorios");
            arbol.setRoot(nroot);
            CargaEstructuraDirectorios(arbol, nroot, this.txtRutaVersionNueva.getText());
            String[] res = new String [5];
-            try {
-                File fo = new File(this.rutaProyecto);
-                File[] childs = fo.listFiles();
-                res = f.calcularComparacion(this.rutaProyecto, this.txtRutaVersionNueva.getText());
-            } catch (IOException ex) {
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
+        try {
+            res = f.calcularComparacion(this.txtRutaVersionNueva.getText(), this.txtRutaVersionNueva.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
             this.txtResultados.setText(res[0]);
         }
         else
@@ -326,10 +308,6 @@ public class Interfaz extends javax.swing.JFrame {
         }
         //FIN_CODIGO
     }//GEN-LAST:event_btnSeleccionarVersionNuevaActionPerformed
-
-    private void btnCompararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompararActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCompararActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,7 +330,6 @@ public class Interfaz extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalcular;
-    private javax.swing.JButton btnComparar;
     private javax.swing.JButton btnSeleccionarVersionNueva;
     private javax.swing.JEditorPane editorAntigua;
     private javax.swing.JEditorPane editorNueva;
@@ -365,7 +342,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblArchivoSeleccionado;
     private javax.swing.JTree treeDirectorios;
     private javax.swing.JTextArea txtResultados;
     private javax.swing.JTextField txtRutaVersionNueva;

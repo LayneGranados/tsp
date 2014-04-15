@@ -2,11 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package comparator.mundo;
+package comparator.mundo.utilidades;
 
 import comparator.mundo.comun.ClaseDTO;
-import comparator.mundo.utilidades.LecturaArchivo;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,23 +25,15 @@ public class Comparator {
         this.clasesVersionNueva= new ArrayList<ClaseDTO>();
     }
     
-    public Comparator(String rutaNueva) {
+    public Comparator(String rutaAntigua, String rutaNueva) {
         this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
         this.clasesVersionNueva= new ArrayList<ClaseDTO>();
+        this.rutaAntigua= rutaAntigua;
         this.rutaNueva=rutaNueva;
     }
     
     private void crearClases(){
         LecturaArchivo l = new LecturaArchivo();
-        File proyecto = new File(this.rutaNueva);
-        File [] hijos = proyecto.listFiles();
-        File carpetaComparator=null;
-        for(int i=0;i<hijos.length&&carpetaComparator==null;i++){
-            if(hijos[i].getName().equalsIgnoreCase(".comparator")){
-                carpetaComparator= hijos[i];
-            }
-        }
-        this.rutaAntigua =  carpetaComparator.getAbsolutePath();
         l.buscarEnHijo(this.rutaAntigua,this.clasesVersionAntigua);
         l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
     }
