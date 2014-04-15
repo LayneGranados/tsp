@@ -29,6 +29,7 @@ import javax.swing.tree.TreeModel;
 import comparator.mundo.Fachada;
 import comparator.mundo.comun.ClaseDTO;
 import comparator.mundo.utilidades.LecturaArchivo;
+import java.awt.Dimension;
 
 /**
  *
@@ -89,6 +90,8 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(2147483647, 668));
+        setPreferredSize(new java.awt.Dimension(1040, 668));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel2.setText("COMPARATOR");
@@ -102,13 +105,35 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        jTabbedPane1.setMaximumSize(new java.awt.Dimension(32767, 386));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(974, 386));
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 358));
+        jPanel1.setPreferredSize(new java.awt.Dimension(953, 358));
+
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(32767, 100));
+
         editorAntigua.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Version Anterior"));
+        editorAntigua.setEditable(false);
+        editorAntigua.setAutoscrolls(false);
+        editorAntigua.setMaximumSize(new java.awt.Dimension(2147483647, 40));
+        editorAntigua.setMinimumSize(new java.awt.Dimension(118, 40));
+        editorAntigua.setPreferredSize(new java.awt.Dimension(118, 39));
         jScrollPane2.setViewportView(editorAntigua);
-        editorAntigua.getAccessibleContext().setAccessibleParent(jScrollPane4);
+
+        jScrollPane3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane3.setFocusable(false);
+        jScrollPane3.setMaximumSize(new java.awt.Dimension(32767, 100));
+        jScrollPane3.setRequestFocusEnabled(false);
+        jScrollPane3.setVerifyInputWhenFocusTarget(false);
 
         editorNueva.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Nueva Versión"));
+        editorNueva.setEditable(false);
+        editorNueva.setAutoscrolls(false);
+        editorNueva.setMaximumSize(new java.awt.Dimension(2147483647, 40));
+        editorNueva.setMinimumSize(new java.awt.Dimension(118, 40));
+        editorNueva.setPreferredSize(new java.awt.Dimension(118, 40));
         jScrollPane3.setViewportView(editorNueva);
-        editorNueva.getAccessibleContext().setAccessibleParent(jScrollPane5);
 
         treeDirectorios.setBorder(javax.swing.BorderFactory.createTitledBorder("Carpetas y Archivos del Proyecto"));
         jScrollPane4.setViewportView(treeDirectorios);
@@ -143,7 +168,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
+                        .add(0, 16, Short.MAX_VALUE)
                         .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 464, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 463, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -162,7 +187,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(0, 9, Short.MAX_VALUE)
+                .add(0, 0, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -174,9 +199,9 @@ public class Interfaz extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, btnCalcular))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-                    .add(jScrollPane3))
-                .addContainerGap())
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 300, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 300, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(191, 191, 191))
         );
 
         jTabbedPane1.addTab("tab1", jPanel1);
@@ -185,11 +210,11 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 953, Short.MAX_VALUE)
+            .add(0, 969, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 640, Short.MAX_VALUE)
+            .add(0, 512, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel3);
@@ -226,8 +251,8 @@ public class Interfaz extends javax.swing.JFrame {
                     .add(jLabel3)
                     .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(btnSeleccionarVersionNueva))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 9, Short.MAX_VALUE)
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 686, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 540, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(7, 7, 7))
         );
 
