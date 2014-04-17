@@ -82,11 +82,15 @@ public class Interfaz extends javax.swing.JFrame {
         editorNueva = new javax.swing.JEditorPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         treeDirectorios = new javax.swing.JTree();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        txtResultados = new javax.swing.JTextArea();
         lblArchivoSeleccionado = new javax.swing.JLabel();
         btnCalcular = new javax.swing.JButton();
         btnComparar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtResultados = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -138,11 +142,6 @@ public class Interfaz extends javax.swing.JFrame {
         treeDirectorios.setBorder(javax.swing.BorderFactory.createTitledBorder("Carpetas y Archivos del Proyecto"));
         jScrollPane4.setViewportView(treeDirectorios);
 
-        txtResultados.setColumns(20);
-        txtResultados.setRows(5);
-        txtResultados.setBorder(javax.swing.BorderFactory.createTitledBorder("Resumen de Cambios"));
-        jScrollPane5.setViewportView(txtResultados);
-
         lblArchivoSeleccionado.setText("Archivo Seleccionado:");
         lblArchivoSeleccionado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -160,6 +159,34 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtResultados.setColumns(20);
+        txtResultados.setRows(5);
+        txtResultados.setBorder(null);
+        jScrollPane5.setViewportView(txtResultados);
+
+        jTabbedPane2.addTab("Cambios del proyecto", jScrollPane5);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jTabbedPane2.addTab("Cambios del archivo", jScrollPane1);
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                .add(0, 0, Short.MAX_VALUE)
+                .add(jTabbedPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 457, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(jTabbedPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, Short.MAX_VALUE))
+        );
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -168,14 +195,15 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(0, 16, Short.MAX_VALUE)
+                        .add(0, 0, Short.MAX_VALUE)
                         .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 464, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 463, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(18, 18, 18)
+                        .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 449, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(8, 8, 8))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 467, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(17, 17, 17)
-                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
@@ -187,11 +215,14 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(0, 0, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 152, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(14, 14, 14))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(lblArchivoSeleccionado)
@@ -204,20 +235,20 @@ public class Interfaz extends javax.swing.JFrame {
                 .add(191, 191, 191))
         );
 
-        jTabbedPane1.addTab("tab1", jPanel1);
+        jTabbedPane1.addTab("Comparar Archivos", jPanel1);
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 969, Short.MAX_VALUE)
+            .add(0, 953, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 512, Short.MAX_VALUE)
+            .add(0, 494, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
+        jTabbedPane1.addTab("Ver historico de Cambios", jPanel3);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -302,11 +333,6 @@ public class Interfaz extends javax.swing.JFrame {
 }
     
     
-    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnCalcularActionPerformed
-
     private void btnSeleccionarVersionNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarVersionNuevaActionPerformed
         // TODO add your handling code here:
         //INICIO_CODIGO
@@ -342,43 +368,46 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void btnCompararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompararActionPerformed
         //INICIO_CODIGO
-            String[] res = new String [4];
-        
-  
-       
-            
-        
+        String[] res = new String [4];
+
         try {
             // TODO add your handling code here:
-            ClaseDTO c = this.f.buscarClasdeRuta(this.res);
-            if(c.getEstado().equalsIgnoreCase("A")){
-                this.lblArchivoSeleccionado.setText("Archivo Seleccionado: Archivo nuevo, no puede ser comparado");
+            if(this.res.equalsIgnoreCase("")){
+                this.lblArchivoSeleccionado.setText("No se ha seleccionado un archivo a comparar");
+            }else{
+                ClaseDTO c = this.f.buscarClasdeRuta(this.res);
+                if(c==null){
+                    this.lblArchivoSeleccionado.setText("No se ha encontrado una clase con ese nombre");
+                }else{
+                    if(c.getEstado().equalsIgnoreCase("A")){
+                        this.lblArchivoSeleccionado.setText("Archivo Seleccionado: Archivo nuevo, no puede ser comparado");
+                    }
+                    else
+                    if(!c.isEsTextoPlano()){
+                        this.lblArchivoSeleccionado.setText("Archivo Seleccionado: Formato inválido, no puede ser comparado");
+                    }
+                    else{
+                        this.lblArchivoSeleccionado.setText("Archivo Seleccionado:" +c.getRutaRelativa());
+                        res = f.compararDosClases(c);
+                        this.editorAntigua.setContentType("text/html");
+                        this.editorAntigua.setText("");
+                        this.editorAntigua.setText(res[3]);
+                        this.editorNueva.setContentType("text/html");
+                        this.editorNueva.setText("");
+                        this.editorNueva.setText(res[1]);
+                    }
+                }
             }
-            else
-                if(!c.isEsTextoPlano()){
-                    this.lblArchivoSeleccionado.setText("Archivo Seleccionado: Formato inválido, no puede ser comparado");
-                }
-                else{
-                    this.lblArchivoSeleccionado.setText("Archivo Seleccionado:" +c.getRutaRelativa());
-                    res = f.compararDosClases(c);
-                    this.editorAntigua.setContentType("text/html");
-                    this.editorAntigua.setText("");
-                    this.editorAntigua.setText(res[3]);
-                    System.out.println("antigua: "+res[3]);
-                    this.editorNueva.setContentType("text/html");
-                    this.editorNueva.setText("");
-                    this.editorNueva.setText(res[1]);
-                    System.out.println("nueva: "+res[1]);
-                }
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-            
-            
         //FIN_CODIGO
-        
     }//GEN-LAST:event_btnCompararActionPerformed
+
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnCalcularActionPerformed
 
     /**
      * @param args the command line arguments
@@ -408,12 +437,16 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblArchivoSeleccionado;
     private javax.swing.JTree treeDirectorios;
     private javax.swing.JTextArea txtResultados;
