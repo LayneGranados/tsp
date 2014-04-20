@@ -88,9 +88,9 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        txtResultados = new javax.swing.JTextArea();
+        txtCambiosProyecto = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtCambiosArchivo = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -117,8 +117,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         jScrollPane2.setMaximumSize(new java.awt.Dimension(32767, 100));
 
-        editorAntigua.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Version Anterior"));
         editorAntigua.setEditable(false);
+        editorAntigua.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Version Anterior"));
         editorAntigua.setAutoscrolls(false);
         editorAntigua.setMaximumSize(new java.awt.Dimension(2147483647, 40));
         editorAntigua.setMinimumSize(new java.awt.Dimension(118, 40));
@@ -159,16 +159,16 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtResultados.setColumns(20);
-        txtResultados.setRows(5);
-        txtResultados.setBorder(null);
-        jScrollPane5.setViewportView(txtResultados);
+        txtCambiosProyecto.setColumns(20);
+        txtCambiosProyecto.setRows(5);
+        txtCambiosProyecto.setBorder(null);
+        jScrollPane5.setViewportView(txtCambiosProyecto);
 
         jTabbedPane2.addTab("Cambios del proyecto", jScrollPane5);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtCambiosArchivo.setColumns(20);
+        txtCambiosArchivo.setRows(5);
+        jScrollPane1.setViewportView(txtCambiosArchivo);
 
         jTabbedPane2.addTab("Cambios del archivo", jScrollPane1);
 
@@ -357,7 +357,7 @@ public class Interfaz extends javax.swing.JFrame {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-            this.txtResultados.setText(res);
+            this.txtCambiosProyecto.setText(res);
         }
         else
         {
@@ -367,11 +367,9 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSeleccionarVersionNuevaActionPerformed
 
     private void btnCompararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompararActionPerformed
-        //INICIO_CODIGO
-        String[] res = new String [4];
+        String[] res = new String [8];
 
         try {
-            // TODO add your handling code here:
             if(this.res.equalsIgnoreCase("")){
                 this.lblArchivoSeleccionado.setText("No se ha seleccionado un archivo a comparar");
             }else{
@@ -395,6 +393,9 @@ public class Interfaz extends javax.swing.JFrame {
                         this.editorNueva.setContentType("text/html");
                         this.editorNueva.setText("");
                         this.editorNueva.setText(res[1]);
+                        String cambiosArchivo = "";
+                        cambiosArchivo = "Archivo:  "+c.getRutaRelativa()+" \n"+"- Cantidad Lineas Agregadas: "+res[4]+" \n"+"- Cantidad Lineas Eliminadas: "+res[5]+" \n"+"- Cantidad Lineas Modificadas: "+res[6]+" \n"+"- Cantidad Total Lineas Lógicas: "+res[7];
+                        this.txtCambiosArchivo.setText(cambiosArchivo);
                     }
                 }
             }
@@ -446,10 +447,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblArchivoSeleccionado;
     private javax.swing.JTree treeDirectorios;
-    private javax.swing.JTextArea txtResultados;
+    private javax.swing.JTextArea txtCambiosArchivo;
+    private javax.swing.JTextArea txtCambiosProyecto;
     private javax.swing.JTextField txtRutaVersionNueva;
     // End of variables declaration//GEN-END:variables
 }

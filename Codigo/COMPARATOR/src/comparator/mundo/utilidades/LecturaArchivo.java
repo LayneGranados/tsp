@@ -18,21 +18,12 @@ import java.util.List;
  */
 public class LecturaArchivo 
 {
-    
-    private ArrayList<ClaseDTO> clasesVersionAntigua;
-    private ArrayList<ClaseDTO> clasesVersionNueva;
 
     
-//INICIO_METODO
-    public LecturaArchivo() 
-    {
-        this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
-        this.clasesVersionNueva= new ArrayList<ClaseDTO>();
+    public LecturaArchivo() {
     }
-//FIN_METODO
   
-    
-//INICIO_METODO
+
     public boolean buscarEnHijo(String path,ArrayList<ClaseDTO> listado) 
     {
         File file = new File(path);
@@ -46,9 +37,7 @@ public class LecturaArchivo
         }
     return this.countChildren(file, listado, path); //&& file.delete();  
 }  
-//FIN_METODO  
 
-//INICIO_METODO
 private boolean countChildren(File dir, ArrayList<ClaseDTO> listado, String rutaProyecto) 
 {
     File[] children = dir.listFiles(); 
@@ -75,53 +64,6 @@ private boolean countChildren(File dir, ArrayList<ClaseDTO> listado, String ruta
         }
     } 
     return childrenContar;  
-}
-//FIN_METODO
-
-public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva){
-    String resultadoAdicion="CLASES ADICIONADAS: ";
-    String cuerpoA ="";
-    int contadorA=0;
-    for(int i=0;i<nueva.size();i++){
-        ClaseDTO claseNew = nueva.get(i);
-        boolean existe=false;
-        for(int j=0;j<antigua.size()&&!existe;j++){
-            ClaseDTO claseOld = antigua.get(j);
-            if(claseNew.equals(claseOld)){
-                existe=true;
-            }
-        }
-        if(!existe){
-            contadorA++;
-            cuerpoA+="- "+claseNew.getRutaRelativa()+"\n";
-            claseNew.setEstado("A");
-            nueva.set(i, claseNew);
-        }
-    }
-    resultadoAdicion+=contadorA+"\n";
-    
-    String resultadoEliminacion="CLASES   ELIMINADAS: ";
-    String cuerpoE ="";
-    int contadorE=0;
-    for(int i=0;i<antigua.size();i++){
-        ClaseDTO claseOld = antigua.get(i);
-        boolean existe=false;
-        for(int j=0;j<nueva.size()&&!existe;j++){
-            ClaseDTO claseNew = nueva.get(j);
-            if(claseNew.equals(claseOld)){
-                existe=true;
-            }
-        }
-        if(!existe){
-            contadorE++;
-            cuerpoE+="- "+claseOld.getRutaRelativa()+"\n";
-            claseOld.setEstado("E");
-            antigua.set(i, claseOld);
-        }
-    }
-    resultadoEliminacion+=contadorE+"\n";
-    
-    return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n";
 }
 
 public void compararDocumentos(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{

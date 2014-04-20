@@ -25,11 +25,9 @@ public class ClaseDTO
     private String estado;
     private String formato;
     private boolean esTextoPlano;
-    //private int cantidadLineasLogicas;
+    private int cantidadLineasLogicas;
     
 
-    
-//INICIO_METODO
     public ClaseDTO() 
     {
         this.estado="H";
@@ -37,12 +35,10 @@ public class ClaseDTO
         this.esTextoPlano=false;
         this.rutaProyecto="";
         this.rutaRelativa="";
-        //this.cantidadLineasLogicas=0;
+        this.cantidadLineasLogicas=0;
     }
-//FIN_METODO
 
     
-//INICIO_METODO
     public ClaseDTO(String nombre, String ruta, String rutaProyecto) 
     {
         this.nombre = nombre;
@@ -52,38 +48,28 @@ public class ClaseDTO
         this.rutaProyecto = rutaProyecto;
         this.esTextoPlano=false;
         this.rutaRelativa="";
-        //this.cantidadLineasLogicas=0;
+        this.cantidadLineasLogicas=0;
     }
-//FIN_METODO
 
-//INICIO_METODO
     public String getNombre() 
     {
         return nombre;
     }
-//FIN_METODO
 
-//INICIO_METODO
     public void setNombre(String nombre) 
     {
         this.nombre = nombre;
     }
-//FIN_METODO
 
-    
-//INICIO_METODO
     public String getRuta() 
     {
         return ruta;
     }
-//FIN_METODO
 
-//INICIO_METODO
     public void setRuta(String ruta) 
     {
         this.ruta = ruta;
     }
-//FIN_METODO
 
     public String getRutaRelativa() {
         return rutaRelativa;
@@ -100,8 +86,6 @@ public class ClaseDTO
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
-    
 
     public ArrayList<LineaDTO> getLineas() {
         return lineas;
@@ -134,15 +118,21 @@ public class ClaseDTO
     public void setFormato(String formato) {
         this.formato = formato;
     }
+
+    public int getCantidadLineasLogicas() {
+        return cantidadLineasLogicas;
+    }
+
+    public void setCantidadLineasLogicas(int cantidadLineasLogicas) {
+        this.cantidadLineasLogicas = cantidadLineasLogicas;
+    }
     
-//INICIO_METODO
     public void guardarMisLineas()
     {
         this.realizarConteo(this.getRuta());
     }
-//FIN_METODO    
-
-//INICIO_METODO    
+    
+    
     private void realizarConteo(String ruta)
     {
         FileReader fr = null;
@@ -157,7 +147,12 @@ public class ClaseDTO
             while ((linea = br.readLine()) != null) 
             {
                 contador++;
-                LineaDTO l = new LineaDTO(contador,linea, "N");
+                boolean isLogica=this.validarLinea(linea.trim());
+                LineaDTO l = new LineaDTO(contador,linea, "N", isLogica);
+                if(isLogica){
+                    int cant = cantidadLineasLogicas;
+                    cantidadLineasLogicas = cant+1;
+                }
                 this.lineas.add(l);
             }
         } catch (Exception e) 
@@ -177,17 +172,7 @@ public class ClaseDTO
             }
         }
     }
-//FIN_METODO
-    
-//INICIO_METODO
-    private boolean validarLinea(String linea)
-    {
-        boolean validez=true;
-        return validez;
-    }
-//FIN_METODO
       
-//INICIO_METODO
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -205,7 +190,31 @@ public class ClaseDTO
         }
         return true;
     }
-//FIN_METODO  
+    
+    public int [] getCantidadTiposDeLinea(){
+        int [] cantidadTipoLineas = new int[3];// posicion 0: cantidad lineas agregadas, posicion 1: cantidad lineas eliminadas, posicion 2: cantidad lineas modificadas
+        cantidadTipoLineas[0]=0;cantidadTipoLineas[1]=0;cantidadTipoLineas[2]=0;
+        for(LineaDTO l : this.lineas){
+            int aux=0;
+            if(l.getEstado().equalsIgnoreCase("A")){
+                aux = cantidadTipoLineas[0];
+                cantidadTipoLineas[0] = aux+1;
+
+            }
+            else if(l.getEstado().equalsIgnoreCase("E")){
+                aux = cantidadTipoLineas[1];
+                cantidadTipoLineas[1] = aux+1;
+            }
+            else if(l.getEstado().equalsIgnoreCase("M")){
+                aux = cantidadTipoLineas[2];
+                cantidadTipoLineas[2] = aux+1;
+            }
+                
+        }
+        return cantidadTipoLineas;
+        
+    }
+    
     //F2A7A7 rojo eliminadas
     //A7F2BE verde modificadas
     //F7FD8B amarillo adicionadas
@@ -245,24 +254,30 @@ public class ClaseDTO
         return html;
     }
     
-public void isFormatValid(){
-    try{
-        boolean valido = false;
-        String [] formatos = {"java","txt","sql","properties","html","xml"};
-        String [] partes = this.getNombre().split("\\.");
-        this.setFormato(partes[partes.length-1]);
-        for(int i=0;i<formatos.length&&!valido;i++){
-            if(this.getFormato().equalsIgnoreCase(formatos[i]))
-                valido=true;
+    public void isFormatValid(){
+        try{
+            boolean valido = false;
+            String [] formatos = {"java","txt","sql","properties","html","xml"};
+            String [] partes = this.getNombre().split("\\.");
+            this.setFormato(partes[partes.length-1]);
+            for(int i=0;i<formatos.length&&!valido;i++){
+                if(this.getFormato().equalsIgnoreCase(formatos[i]))
+                    valido=true;
+            }
+            this.setEsTextoPlano(valido);
+        }catch(Exception e){
+            this.setEsTextoPlano(false);
         }
-        this.setEsTextoPlano(valido);
-    }catch(Exception e){
-        this.setEsTextoPlano(false);
     }
-    
-    
-    
-}
+
+    private boolean validarLinea(String linea)
+    {
+        boolean logica=true;
+            if(linea.trim().equalsIgnoreCase("{")||linea.trim().equalsIgnoreCase("}")||linea.trim().equalsIgnoreCase("")){
+                    logica=false;
+            }
+        return logica;
+    }
 
     
     

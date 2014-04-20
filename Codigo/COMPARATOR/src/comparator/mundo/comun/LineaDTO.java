@@ -15,16 +15,16 @@ public class LineaDTO {
     private int numeroLinea;
     private String contenido;
     private String estado;// puede ser "A" de agregada, "E" de eliminada y "M" de modificada o "N" de normal
+    private boolean isLineaLogica;
 
     public LineaDTO() {
     }
 
-    public LineaDTO(int numeroLinea, String contenido, String estado) {
+    public LineaDTO(int numeroLinea, String contenido, String estado, boolean isLineaLogica) {
         this.contenido = contenido;
         this.numeroLinea = numeroLinea; 
         this.estado = estado; 
-        
-        
+        this.isLineaLogica=isLineaLogica;
     }
     
     public String getContenido() {
@@ -50,9 +50,14 @@ public class LineaDTO {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
+
+    public boolean isIsLineaLogica() {
+        return isLineaLogica;
+    }
+
+    public void setIsLineaLogica(boolean isLineaLogica) {
+        this.isLineaLogica = isLineaLogica;
+    }
     
 
     @Override

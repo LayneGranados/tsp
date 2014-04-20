@@ -35,7 +35,7 @@ public class Fachada {
     
     public String[] compararDosClases(ClaseDTO claseNuevaSeleccionada){
         try {
-            return this.comparator.compararDosClases(claseNuevaSeleccionada);
+            return this.comparator.compararDosClasesBuscandoAntigua(claseNuevaSeleccionada);
         } catch (IOException ex) {
             Logger.getLogger(Fachada.class.getName()).log(Level.SEVERE, null, ex);
             return null;
