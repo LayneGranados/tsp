@@ -33,7 +33,7 @@ public class Comparator {
         this.rutaNueva=rutaNueva;
     }
     
-    private void crearClases(){
+    public void crearClases(){
         LecturaArchivo l = new LecturaArchivo();
         File proyecto = new File(this.rutaNueva);
         File [] hijos = proyecto.listFiles();
@@ -181,7 +181,21 @@ public class Comparator {
         }
         return seleccionada;
     }
-    
-    
+
+    public ArrayList<ClaseDTO> getClasesVersionAntigua() {
+        return clasesVersionAntigua;
+    }
+
+    public void setClasesVersionAntigua(ArrayList<ClaseDTO> clasesVersionAntigua) {
+        this.clasesVersionAntigua = clasesVersionAntigua;
+    }
+
+    public ArrayList<ClaseDTO> getClasesVersionNueva() {
+        return clasesVersionNueva;
+    }
+
+    public void setClasesVersionNueva(ArrayList<ClaseDTO> clasesVersionNueva) {
+        this.clasesVersionNueva = clasesVersionNueva;
+    }
     
 }
