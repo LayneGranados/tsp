@@ -40,6 +40,9 @@ public class Fachada {
             Logger.getLogger(Fachada.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+    }
+    
+    public boolean crearVersion(){
+        return this.comparator.crearPrimeraVersion();
     }
 }

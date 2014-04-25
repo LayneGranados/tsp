@@ -5,6 +5,7 @@
 package comparator.mundo;
 
 import comparator.mundo.comun.ClaseDTO;
+import comparator.mundo.utilidades.EscrituraArchivo;
 import comparator.mundo.utilidades.LecturaArchivo;
 import java.io.File;
 import java.io.IOException;
@@ -198,6 +199,16 @@ public class Comparator {
                 seleccionada = c;
         }
         return seleccionada;
+    }
+    
+    public boolean crearPrimeraVersion(){
+        String rutaComparador=this.rutaNueva+"/.comparator";
+        if(!this.versionado){
+          EscrituraArchivo.crearCarpeta(rutaComparador);
+          File f = new File (rutaComparador);
+          EscrituraArchivo.crearArchivo(f.getAbsolutePath()+"/historico.txt");
+        }
+        return true;
     }
 
     public ArrayList<ClaseDTO> getClasesVersionAntigua() {

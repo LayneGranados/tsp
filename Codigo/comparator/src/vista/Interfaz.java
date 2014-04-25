@@ -415,7 +415,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         // TODO add your handling code here:
-
+        this.f.crearVersion();
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     /**
