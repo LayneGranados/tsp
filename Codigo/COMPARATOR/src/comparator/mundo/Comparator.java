@@ -5,11 +5,13 @@
 package comparator.mundo;
 
 import comparator.mundo.comun.ClaseDTO;
-import comparator.mundo.utilidades.EscrituraArchivo;
+import comparator.mundo.comun.HistoricoVersion;
 import comparator.mundo.utilidades.LecturaArchivo;
+import comparator.mundo.utilidades.UtilidadesArchivo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -22,12 +24,20 @@ public class Comparator {
     private String rutaAntigua;
     private String rutaNueva;
     private boolean versionado;
+    private int locAdicionados;
+    private int locEliminados;
+    private int locModificados;
+    private int locTotales;
     
 
     public Comparator() {
         this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
         this.clasesVersionNueva= new ArrayList<ClaseDTO>();
         this.versionado=false;
+        this.locAdicionados=0;
+        this.locEliminados=0;
+        this.locModificados=0;
+        this.locTotales=0;
     }
     
     public Comparator(String rutaNueva) {
@@ -35,6 +45,10 @@ public class Comparator {
         this.clasesVersionNueva= new ArrayList<ClaseDTO>();
         this.rutaNueva=rutaNueva;
         this.versionado=false;
+        this.locAdicionados=0;
+        this.locEliminados=0;
+        this.locModificados=0;
+        this.locTotales=0;
     }
     
     public void crearClases(){
@@ -43,12 +57,13 @@ public class Comparator {
         File [] hijos = proyecto.listFiles();
         File carpetaComparator=null;
         for(int i=0;i<hijos.length&&carpetaComparator==null;i++){
-            if(hijos[i].getName().equalsIgnoreCase(".comparator")){
+            if(hijos[i].getName().equalsIgnoreCase(".comparator"+System.getProperty("file.separator")+".proyecto")){
                 carpetaComparator= hijos[i];
             }
         }
         if(carpetaComparator==null){
             versionado=false;
+            l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
         }
         else{
             this.rutaAntigua =  carpetaComparator.getAbsolutePath();
@@ -89,10 +104,10 @@ public class Comparator {
     }
     
     public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{
-    int sumatoriaLineasAgregadas=0;
-    int sumatoriaLineasEliminadas=0;
-    int sumatoriaLineasModificadas=0;
-    int sumatoriaLineasLogicas=0;
+    this.locAdicionados=0;
+    this.locEliminados=0;
+    this.locModificados=0;
+    this.locTotales=0;
     String noVersionado="Este proyecto no cuenta con una version anterior, por lo "+"\n"+"tanto no podrán realizarse comparaciones. "+"\n"
                       + "Si desea agrega la primer versión del proyecto haciendo click "+"\n"+"en el botón 'Agregar Versión'. ";
     
@@ -121,9 +136,9 @@ public class Comparator {
                 nueva.set(i, claseNew);
             }
             int[] cantidadCalculada = claseNew.getCantidadTiposDeLinea();
-            sumatoriaLineasAgregadas+=cantidadCalculada[0];
-            sumatoriaLineasModificadas+=cantidadCalculada[2];
-            sumatoriaLineasLogicas+=claseNew.getCantidadLineasLogicas();
+            this.locAdicionados+=cantidadCalculada[0];
+            this.locModificados+=cantidadCalculada[2];
+            this.locTotales+=claseNew.getCantidadLineasLogicas();
         }
         resultadoAdicion+=contadorA+"\n";
 
@@ -146,13 +161,18 @@ public class Comparator {
                 antigua.set(i, claseOld);
             }
             int[] cantidadCalculada = claseOld.getCantidadTiposDeLinea();
-            sumatoriaLineasEliminadas+=cantidadCalculada[1];
+            this.locEliminados+=cantidadCalculada[1];
         }
         resultadoEliminacion+=contadorE+"\n";
-        return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n"+"\n"+"Cantidad Lineas Agregadas del Programa: "+sumatoriaLineasAgregadas+"\n"+"Cantidad Lineas Eliminadas del Programa: "+sumatoriaLineasEliminadas+"\n"+"Cantidad Lineas Modificadas del Programa: "+sumatoriaLineasModificadas+"\n"+"Cantidad Total de Lineas Lógicas del Programa: "+sumatoriaLineasLogicas;
+        return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n"+"\n"+"Cantidad Lineas Agregadas del Programa: "+this.locAdicionados+"\n"+"Cantidad Lineas Eliminadas del Programa: "+this.locEliminados+"\n"+"Cantidad Lineas Modificadas del Programa: "+this.locModificados+"\n"+"Cantidad Total de Lineas Lógicas del Programa: "+this.locTotales;
     }
-    else
-        return noVersionado;
+    else{
+        for (ClaseDTO claseNew : nueva) {
+            claseNew.guardarMisLineas();
+            this.locTotales+=claseNew.getCantidadLineasLogicas();
+        }
+    }
+        return "Cantidad total de Líneas Lógicas del Programa: "+this.locTotales+"\n"+"\n"+noVersionado;
 }
     
     public String[] compararDosClasesDadas(ClaseDTO a, ClaseDTO n) throws IOException{
@@ -201,12 +221,47 @@ public class Comparator {
         return seleccionada;
     }
     
-    public boolean crearPrimeraVersion(){
-        String rutaComparador=this.rutaNueva+"/.comparator";
+    public boolean agregarVersion(){
+        if(!versionado){
+            this.crearPrimeraVersion();
+        }
+        this.guardarHistoricoVersion("layne.granados", "se hizo un cambio");
+        this.actualizarVersion();
+        
+        return true;
+    }
+    
+    private boolean actualizarVersion(){
+        String separator= System.getProperty("file.separator");
+        String rutaProyecto=this.rutaNueva+separator+".comparator"+separator+".proyecto";
+        UtilidadesArchivo.copiarCarpeta(this.rutaNueva, rutaProyecto);
+        return true;
+    }
+    
+    private boolean guardarHistoricoVersion(String usuario, String comentario){
+        String separator= System.getProperty("file.separator");
+        String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"historico.txt";
+        ArrayList<String> lineasHistorico = UtilidadesArchivo.leerLineasArchivo(rutaHistorico);
+        int version = 1;
+        if(lineasHistorico.size()>0){
+            String linea = lineasHistorico.get(lineasHistorico.size()-1);
+            HistoricoVersion h = new HistoricoVersion(linea);
+            version = h.getVersion()+1;
+        }
+        Date d = new Date();
+        String fecha = (d.getYear()+1900)+"-"+(d.getMonth()+1)+"-"+d.getDate();
+        HistoricoVersion h = new HistoricoVersion(version,fecha,usuario,comentario,this.locAdicionados,this.locEliminados,this.locModificados,this.locTotales);
+        UtilidadesArchivo.escribirNuevaLineaEnArchivo(rutaHistorico, h.linea());
+        return true;
+    }
+    
+    private boolean crearPrimeraVersion(){
+        String separator= System.getProperty("file.separator");
+        String rutaComparador=this.rutaNueva+separator+".comparator";
         if(!this.versionado){
-          EscrituraArchivo.crearCarpeta(rutaComparador);
+          UtilidadesArchivo.crearCarpeta(rutaComparador+System.getProperty("file.separator")+".proyecto");
           File f = new File (rutaComparador);
-          EscrituraArchivo.crearArchivo(f.getAbsolutePath()+"/historico.txt");
+          UtilidadesArchivo.crearArchivo(f.getAbsolutePath()+separator+"historico.txt");
         }
         return true;
     }

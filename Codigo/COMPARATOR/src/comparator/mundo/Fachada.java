@@ -43,6 +43,6 @@ public class Fachada {
     }
     
     public boolean crearVersion(){
-        return this.comparator.crearPrimeraVersion();
+        return this.comparator.agregarVersion();
     }
 }
