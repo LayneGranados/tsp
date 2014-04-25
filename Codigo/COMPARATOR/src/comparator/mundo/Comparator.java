@@ -20,17 +20,20 @@ public class Comparator {
     private ArrayList<ClaseDTO> clasesVersionNueva;
     private String rutaAntigua;
     private String rutaNueva;
+    private boolean versionado;
     
 
     public Comparator() {
         this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
         this.clasesVersionNueva= new ArrayList<ClaseDTO>();
+        this.versionado=false;
     }
     
     public Comparator(String rutaNueva) {
         this.clasesVersionAntigua= new ArrayList<ClaseDTO>();
         this.clasesVersionNueva= new ArrayList<ClaseDTO>();
         this.rutaNueva=rutaNueva;
+        this.versionado=false;
     }
     
     public void crearClases(){

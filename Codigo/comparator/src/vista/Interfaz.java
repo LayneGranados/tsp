@@ -295,23 +295,24 @@ public class Interfaz extends javax.swing.JFrame {
  
     File archivo = new File(ruta);
     File[] archivos = archivo.listFiles();
- 
+    int contadorNodo=0;
     if (archivos != null) {
-        for (int i = 0; i < archivos.length; i++) {
+        for (int i = 0; i < archivos.length;i++) {
             File archi = archivos[i];
-            aux = new MyNode(archi.getAbsolutePath(),archi.getName());
-            arbol.insertNodeInto(aux, padre, i); 
- 
-            if (archivos[i].isDirectory()) {
-                try {
-                    CargaEstructuraDirectorios(arbol, aux, archivos[i].getAbsolutePath() + "/");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+            if(!archi.getName().equalsIgnoreCase(".comparator")){
+                aux = new MyNode(archi.getAbsolutePath(),archi.getName());
+                arbol.insertNodeInto(aux, padre, contadorNodo); 
+
+                if (archivos[i].isDirectory()) {
+                    try {
+                        CargaEstructuraDirectorios(arbol, aux, archivos[i].getAbsolutePath() + "/");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
+                contadorNodo++;
             }
- 
         }
- 
     }
 }
     private void eliminarTodos(){
