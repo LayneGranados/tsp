@@ -46,9 +46,16 @@ public class Comparator {
                 carpetaComparator= hijos[i];
             }
         }
-        this.rutaAntigua =  carpetaComparator.getAbsolutePath();
-        l.buscarEnHijo(this.rutaAntigua,this.clasesVersionAntigua);
-        l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
+        if(carpetaComparator==null){
+            versionado=false;
+        }
+        else{
+            this.rutaAntigua =  carpetaComparator.getAbsolutePath();
+            l.buscarEnHijo(this.rutaAntigua,this.clasesVersionAntigua);
+            l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
+            versionado=true;
+        }
+        
     }
     
     public String[] realizarCalculos() throws IOException{
@@ -72,9 +79,12 @@ public class Comparator {
         return calculos;
     }
     
-    public String compararProyectos() throws IOException{
+    public Object[] compararProyectos() throws IOException{
         this.crearClases();
-        return this.compararClases(clasesVersionAntigua, clasesVersionNueva);
+        Object [] resultados = new Object[2];
+        resultados [0]=versionado;
+        resultados [1]=this.compararClases(clasesVersionAntigua, clasesVersionNueva);
+        return resultados;
     }
     
     public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{
@@ -82,61 +92,66 @@ public class Comparator {
     int sumatoriaLineasEliminadas=0;
     int sumatoriaLineasModificadas=0;
     int sumatoriaLineasLogicas=0;
+    String noVersionado="Este proyecto no cuenta con una version anterior, por lo "+"\n"+"tanto no podrán realizarse comparaciones. "+"\n"
+                      + "Si desea agrega la primer versión del proyecto haciendo click "+"\n"+"en el botón 'Agregar Versión'. ";
     
-    String resultadoAdicion="CLASES ADICIONADAS: ";
-    String cuerpoA ="";
-    int contadorA=0;
-    LecturaArchivo l = new LecturaArchivo();
-    for(int i=0;i<nueva.size();i++){
-        ClaseDTO claseNew = nueva.get(i);
-        boolean existe=false;
-        for(int j=0;j<antigua.size()&&!existe;j++){
-            ClaseDTO claseOld = antigua.get(j);
-            if(claseNew.equals(claseOld)){
-                existe=true;
-                claseNew.guardarMisLineas();
-                claseOld.guardarMisLineas();
-                l.modificarEstadoLineas(claseOld, claseNew, true);
-                l.modificarEstadoLineas(claseNew, claseOld, false);
+    if(this.versionado){
+        String resultadoAdicion="CLASES ADICIONADAS: ";
+        String cuerpoA ="";
+        int contadorA=0;
+        LecturaArchivo l = new LecturaArchivo();
+        for(int i=0;i<nueva.size();i++){
+            ClaseDTO claseNew = nueva.get(i);
+            boolean existe=false;
+            for(int j=0;j<antigua.size()&&!existe;j++){
+                ClaseDTO claseOld = antigua.get(j);
+                if(claseNew.equals(claseOld)){
+                    existe=true;
+                    claseNew.guardarMisLineas();
+                    claseOld.guardarMisLineas();
+                    l.modificarEstadoLineas(claseOld, claseNew, true);
+                    l.modificarEstadoLineas(claseNew, claseOld, false);
+                }
             }
-        }
-        if(!existe){
-            contadorA++;
-            cuerpoA+="- "+claseNew.getRutaRelativa()+"\n";
-            claseNew.setEstado("A");
-            nueva.set(i, claseNew);
-        }
-        int[] cantidadCalculada = claseNew.getCantidadTiposDeLinea();
-        sumatoriaLineasAgregadas+=cantidadCalculada[0];
-        sumatoriaLineasModificadas+=cantidadCalculada[2];
-        sumatoriaLineasLogicas+=claseNew.getCantidadLineasLogicas();
-    }
-    resultadoAdicion+=contadorA+"\n";
-    
-    String resultadoEliminacion="CLASES   ELIMINADAS: ";
-    String cuerpoE ="";
-    int contadorE=0;
-    for(int i=0;i<antigua.size();i++){
-        ClaseDTO claseOld = antigua.get(i);
-        boolean existe=false;
-        for(int j=0;j<nueva.size()&&!existe;j++){
-            ClaseDTO claseNew = nueva.get(j);
-            if(claseNew.equals(claseOld)){
-                existe=true;
+            if(!existe){
+                contadorA++;
+                cuerpoA+="- "+claseNew.getRutaRelativa()+"\n";
+                claseNew.setEstado("A");
+                nueva.set(i, claseNew);
             }
+            int[] cantidadCalculada = claseNew.getCantidadTiposDeLinea();
+            sumatoriaLineasAgregadas+=cantidadCalculada[0];
+            sumatoriaLineasModificadas+=cantidadCalculada[2];
+            sumatoriaLineasLogicas+=claseNew.getCantidadLineasLogicas();
         }
-        if(!existe){
-            contadorE++;
-            cuerpoE+="- "+claseOld.getRutaRelativa()+"\n";
-            claseOld.setEstado("E");
-            antigua.set(i, claseOld);
+        resultadoAdicion+=contadorA+"\n";
+
+        String resultadoEliminacion="CLASES   ELIMINADAS: ";
+        String cuerpoE ="";
+        int contadorE=0;
+        for(int i=0;i<antigua.size();i++){
+            ClaseDTO claseOld = antigua.get(i);
+            boolean existe=false;
+            for(int j=0;j<nueva.size()&&!existe;j++){
+                ClaseDTO claseNew = nueva.get(j);
+                if(claseNew.equals(claseOld)){
+                    existe=true;
+                }
+            }
+            if(!existe){
+                contadorE++;
+                cuerpoE+="- "+claseOld.getRutaRelativa()+"\n";
+                claseOld.setEstado("E");
+                antigua.set(i, claseOld);
+            }
+            int[] cantidadCalculada = claseOld.getCantidadTiposDeLinea();
+            sumatoriaLineasEliminadas+=cantidadCalculada[1];
         }
-        int[] cantidadCalculada = claseOld.getCantidadTiposDeLinea();
-        sumatoriaLineasEliminadas+=cantidadCalculada[1];
+        resultadoEliminacion+=contadorE+"\n";
+        return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n"+"\n"+"Cantidad Lineas Agregadas del Programa: "+sumatoriaLineasAgregadas+"\n"+"Cantidad Lineas Eliminadas del Programa: "+sumatoriaLineasEliminadas+"\n"+"Cantidad Lineas Modificadas del Programa: "+sumatoriaLineasModificadas+"\n"+"Cantidad Total de Lineas Lógicas del Programa: "+sumatoriaLineasLogicas;
     }
-    resultadoEliminacion+=contadorE+"\n";
-    
-    return resultadoAdicion+cuerpoA+"\n"+resultadoEliminacion+cuerpoE+"\n"+"\n"+"Cantidad Lineas Agregadas del Programa: "+sumatoriaLineasAgregadas+"\n"+"Cantidad Lineas Eliminadas del Programa: "+sumatoriaLineasEliminadas+"\n"+"Cantidad Lineas Modificadas del Programa: "+sumatoriaLineasModificadas+"\n"+"Cantidad Total de Lineas Lógicas del Programa: "+sumatoriaLineasLogicas;
+    else
+        return noVersionado;
 }
     
     public String[] compararDosClasesDadas(ClaseDTO a, ClaseDTO n) throws IOException{

@@ -40,6 +40,7 @@ public class Interfaz extends javax.swing.JFrame {
     private final Fachada f;
     private String res;
     private String rutaProyecto;
+    private boolean versionado;
     
     /**
      * Creates new form Interfaz
@@ -48,6 +49,7 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
         this.eliminarTodos();
         this.f=new Fachada();
+        versionado=false;
         res="";
         final JTree tree = this.treeDirectorios;
         tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -153,6 +155,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         btnComparar.setText("Comparar");
+        btnComparar.setEnabled(false);
         btnComparar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompararActionPerformed(evt);
@@ -350,15 +353,19 @@ public class Interfaz extends javax.swing.JFrame {
            MyNode nroot = new MyNode(this.rutaProyecto,"Árbol de directorios");
            arbol.setRoot(nroot);
            CargaEstructuraDirectorios(arbol, nroot, this.txtRutaVersionNueva.getText());
-           String res ="";
+           Object[] res;
+           String cadena = "";
             try {
                 f.inicializarComparator(rutaProyecto);
                 res = f.calcularComparacion(this.txtRutaVersionNueva.getText());
+                cadena = (String)res[1];
+                this.versionado=(Boolean)res[0];
+                this.btnComparar.setEnabled(versionado);
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-            this.txtCambiosProyecto.setText(res);
+            this.txtCambiosProyecto.setText(cadena);
         }
         else
         {

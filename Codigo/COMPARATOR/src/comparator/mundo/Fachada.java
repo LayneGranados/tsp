@@ -25,7 +25,7 @@ public class Fachada {
         this.comparator = new Comparator(rutaNueva);
     }
     
-    public String calcularComparacion(String rutaNueva) throws IOException{
+    public Object[] calcularComparacion(String rutaNueva) throws IOException{
         return this.comparator.compararProyectos();
     }
     
