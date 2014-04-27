@@ -1,9 +1,4 @@
-1%;&2014-4-26%;&layne.granados%;&se hizo un cambio%;&0%;&0%;&0%;&9469
-2%;&2014-4-26%;&layne.granados%;&se hizo un cambio%;&0%;&0%;&0%;&9469
-3%;&2014-4-26%;&layne.granados%;&se hizo un cambio%;&1%;&1%;&90%;&9471
-4%;&2014-4-26%;&claudia.vargas%;&Se realiza el cambio para realizar pruebas%;&0%;&0%;&0%;&0
-5%;&2014-4-26%;&fabian.becerra%;&Nuevo cambio para revisar si funciona o no%;&1%;&2%;&215%;&10034
-6%;&2014-4-26%;&rafael.ortega%;&Uno de los ultimos cambios%;&40%;&13%;&150%;&10063
-7%;&2014-4-26%;&oscar.velasquez%;&ya no se que poner%;&0%;&0%;&1%;&10063
-8%;&2014-4-26%;&layne.granados%;&Nuevo Cambio de prueba%;&0%;&0%;&4%;&10062
-9%;&2014-4-26%;&claudia.vargas%;&buu%;&4%;&4%;&19%;&10066
+1%;&2014-4-26%;&layne.granados%;&Versión Inicial%;&0%;&0%;&0%;&10119
+2%;&2014-4-27%;&claudia.vargas%;&Segundo cambio de prueba con puros comentarios%;&10%;&11%;&1%;&10117
+3%;&2014-4-27%;&fabian.becerra%;&Se corrige error al guardar el html de los cambios detallados de la versión del proyecto%;&6%;&6%;&7%;&10117
+4%;&2014-4-27%;&rafael.ortega%;&Nuevo comment%;&55%;&0%;&391%;&10178

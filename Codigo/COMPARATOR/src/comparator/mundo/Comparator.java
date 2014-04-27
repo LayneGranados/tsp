@@ -6,12 +6,15 @@ package comparator.mundo;
 
 import comparator.mundo.comun.ClaseDTO;
 import comparator.mundo.comun.HistoricoVersionDTO;
+import comparator.mundo.comun.LineaDTO;
 import comparator.mundo.utilidades.LecturaArchivo;
 import comparator.mundo.utilidades.UtilidadesArchivo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -248,6 +251,7 @@ public class Comparator {
     private boolean guardarHistoricoVersion(String usuario, String comentario){
         String separator= System.getProperty("file.separator");
         String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"historico.txt";
+        String rutaDetallado=this.rutaNueva+separator+".comparator"+separator+"detallado.txt";
         ArrayList<String> lineasHistorico = UtilidadesArchivo.leerLineasArchivo(rutaHistorico);
         int version = 1;
         if(lineasHistorico.size()>0){
@@ -259,6 +263,7 @@ public class Comparator {
         String fecha = (d.getYear()+1900)+"-"+(d.getMonth()+1)+"-"+d.getDate();
         HistoricoVersionDTO h = new HistoricoVersionDTO(version,fecha,usuario,comentario,this.locAdicionados,this.locEliminados,this.locModificados,this.locTotales);
         UtilidadesArchivo.escribirNuevaLineaEnArchivo(rutaHistorico, h.linea());
+        UtilidadesArchivo.escribirNuevaLineaEnArchivo(rutaDetallado, this.crearLineaHtmlCambiosDetalladosDeVersion());
         return true;
     }
     
@@ -269,6 +274,7 @@ public class Comparator {
           UtilidadesArchivo.crearCarpeta(rutaComparador+System.getProperty("file.separator")+".proyecto");
           File f = new File (rutaComparador);
           UtilidadesArchivo.crearArchivo(f.getAbsolutePath()+separator+"historico.txt");
+          UtilidadesArchivo.crearArchivo(f.getAbsolutePath()+separator+"detallado.txt");
         }
         return true;
     }
@@ -287,6 +293,67 @@ public class Comparator {
 
     public void setClasesVersionNueva(ArrayList<ClaseDTO> clasesVersionNueva) {
         this.clasesVersionNueva = clasesVersionNueva;
+    }
+    
+    public String crearLineaHtmlCambiosDetalladosDeVersion(){
+        String separator= System.getProperty("file.separator");
+        String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"historico.txt";
+        ArrayList<String> lineasHistorico = UtilidadesArchivo.leerLineasArchivo(rutaHistorico);
+        int version = 1;
+        if(lineasHistorico.size()>0){
+            String linea = lineasHistorico.get(lineasHistorico.size()-1);
+            HistoricoVersionDTO h = new HistoricoVersionDTO(linea);
+            version = h.getVersion()+1;
+        }
+        String html ="<html><p>MODIFICACIONES EN LA VERSION NUMERO "+version+"<br />";
+        try {
+            String cambiosGenerales =  this.compararClases(clasesVersionAntigua, clasesVersionNueva);
+            cambiosGenerales=cambiosGenerales.replaceAll("\n", "<br />");
+            html+=cambiosGenerales+"<br />"+"DIFERENCIAS ENTRE ARCHIVOS "+"<br />";
+            for(ClaseDTO clase : this.clasesVersionNueva){
+                if(clase.getEstado().equalsIgnoreCase("H")){
+                    int a=0, e=0, m=0;
+                    String agregada="", eliminada="", modificada="";
+                    for(int i=0;i<clase.getLineas().size();i++){
+                        LineaDTO l = clase.getLineas().get(i);
+                
+                        if(l.getEstado().equalsIgnoreCase("A")){
+                            a+=1;
+                            agregada+="["+l.getNumeroLinea()+"]"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
+                        }   
+                        if(l.getEstado().equalsIgnoreCase("E")){
+                            e+=1;
+                            eliminada+="["+l.getNumeroLinea()+"]"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
+                        }
+                        if(l.getEstado().equalsIgnoreCase("M")){
+                            m+=1;
+                            modificada+="["+l.getNumeroLinea()+"]"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
+                        }
+                    }
+                    if(a>0)
+                        agregada="Líneas Agregadas: "+a+"<br />"+agregada+"<br />";
+                    if(e>0)
+                        eliminada="Líneas Eliminadas: "+e+"<br />"+eliminada+"<br />";
+                    if(m>0)
+                        modificada="Líneas Modificadas: "+m+"<br />"+modificada+"<br />";
+                    if(a>0||e>0||m>0){
+                        html+=clase.getRutaRelativa()+"<br />"+agregada+eliminada+modificada;
+                    }
+                }
+            }
+            html +="</p></html>";
+            return html;
+        } catch (IOException ex) {
+            Logger.getLogger(Comparator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return html;
+    }
+    
+    public String getDetalleVersion(int version){
+        String separator= System.getProperty("file.separator");
+        String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"detallado.txt";
+        ArrayList<String> lineasDetallado = UtilidadesArchivo.leerLineasArchivo(rutaHistorico); 
+        return lineasDetallado.get(version);
     }
     
 }

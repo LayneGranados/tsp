@@ -53,4 +53,10 @@ public class Fachada {
     public boolean crearVersion(String usuario, String comentario, Comparator comparator){
         return comparator.agregarVersion(usuario, comentario);
     }
+    
+    public String getDetalleVersion(int version){
+        return this.comparator.getDetalleVersion(version);
+    }
+    
+    
 }

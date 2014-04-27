@@ -73,6 +73,11 @@ public class VentanaAgregarVersion extends javax.swing.JFrame {
 
         btnCancelarAgregar.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         btnCancelarAgregar.setText("Cancelar");
+        btnCancelarAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarAgregarActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,6 +135,12 @@ public class VentanaAgregarVersion extends javax.swing.JFrame {
         this.setVisible(false); //you can't see me!
         this.dispose(); //Destroy the JFrame object
     }//GEN-LAST:event_btnAgregarVersionActionPerformed
+
+    private void btnCancelarAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarAgregarActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false); //you can't see me!
+        this.dispose(); //Destroy the JFrame object
+    }//GEN-LAST:event_btnCancelarAgregarActionPerformed
 
     /**
      * @param args the command line arguments
