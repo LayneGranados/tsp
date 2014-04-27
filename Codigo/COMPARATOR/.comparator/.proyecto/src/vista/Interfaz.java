@@ -96,7 +96,6 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         jScrollPane6 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        btnVerDetalles = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2147483647, 668));
@@ -242,7 +241,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Comparar Archivos", jPanel1);
 
-        tabla.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -251,34 +249,20 @@ public class Interfaz extends javax.swing.JFrame {
 
             }
         ));
-        tabla.setRowHeight(25);
         jScrollPane6.setViewportView(tabla);
 
         jScrollPane7.setViewportView(jScrollPane6);
-
-        btnVerDetalles.setText("jButton1");
-        btnVerDetalles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerDetallesActionPerformed(evt);
-            }
-        });
 
         org.jdesktop.layout.GroupLayout panelHistoricoLayout = new org.jdesktop.layout.GroupLayout(panelHistorico);
         panelHistorico.setLayout(panelHistoricoLayout);
         panelHistoricoLayout.setHorizontalGroup(
             panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
-            .add(panelHistoricoLayout.createSequentialGroup()
-                .add(235, 235, 235)
-                .add(btnVerDetalles)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelHistoricoLayout.setVerticalGroup(
             panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panelHistoricoLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(btnVerDetalles)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 9, Short.MAX_VALUE)
+                .add(0, 44, Short.MAX_VALUE)
                 .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 450, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -457,13 +441,6 @@ public class Interfaz extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_btnCalcularActionPerformed
 
-    private void btnVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetallesActionPerformed
-        // TODO add your handling code here:
-        
-        int i = this.tabla.getSelectedRow();
-        System.out.println("Versión"+i);
-    }//GEN-LAST:event_btnVerDetallesActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -487,7 +464,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnComparar;
     private javax.swing.JButton btnSeleccionarVersionNueva;
-    private javax.swing.JButton btnVerDetalles;
     private javax.swing.JEditorPane editorAntigua;
     private javax.swing.JEditorPane editorNueva;
     private javax.swing.JLabel jLabel2;
