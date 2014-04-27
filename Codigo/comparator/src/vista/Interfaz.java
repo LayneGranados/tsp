@@ -95,10 +95,10 @@ public class Interfaz extends javax.swing.JFrame {
         txtCambiosArchivo = new javax.swing.JTextArea();
         panelHistorico = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
         btnVerDetalles = new javax.swing.JButton();
         btnActualizarHistórico = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -248,20 +248,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Comparar Archivos", jPanel1);
 
-        tabla.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tabla.setRowHeight(25);
-        jScrollPane6.setViewportView(tabla);
-
-        jScrollPane7.setViewportView(jScrollPane6);
-
         btnVerDetalles.setText("Ver Detalle de los cambios de la Versión");
         btnVerDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,15 +262,31 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        tabla.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tabla.setRowHeight(25);
+        jScrollPane6.setViewportView(tabla);
+
         org.jdesktop.layout.GroupLayout panelHistoricoLayout = new org.jdesktop.layout.GroupLayout(panelHistorico);
         panelHistorico.setLayout(panelHistoricoLayout);
         panelHistoricoLayout.setHorizontalGroup(
             panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE)
+            .add(panelHistoricoLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 973, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(44, 44, 44)
+                .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
             .add(panelHistoricoLayout.createSequentialGroup()
                 .add(104, 104, 104)
                 .add(btnVerDetalles)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 260, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 297, Short.MAX_VALUE)
                 .add(btnActualizarHistórico)
                 .add(180, 180, 180))
         );
@@ -294,8 +296,14 @@ public class Interfaz extends javax.swing.JFrame {
                 .add(panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnVerDetalles)
                     .add(btnActualizarHistórico))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 68, Short.MAX_VALUE)
-                .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 450, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panelHistoricoLayout.createSequentialGroup()
+                        .add(0, 62, Short.MAX_VALUE)
+                        .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 450, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(panelHistoricoLayout.createSequentialGroup()
+                        .add(jScrollPane6)
+                        .addContainerGap())))
         );
 
         jTabbedPane1.addTab("Ver historico de Cambios", panelHistorico);
@@ -312,7 +320,7 @@ public class Interfaz extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(layout.createSequentialGroup()
                         .add(18, 18, 18)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -329,11 +337,12 @@ public class Interfaz extends javax.swing.JFrame {
                             .add(layout.createSequentialGroup()
                                 .add(jLabel3)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 656, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(txtRutaVersionNueva)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                 .add(btnSeleccionarVersionNueva)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jButton1))))
+                                .add(jButton1)
+                                .add(12, 12, 12))))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1030, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
