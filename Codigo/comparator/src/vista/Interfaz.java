@@ -99,16 +99,21 @@ public class Interfaz extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         btnVerDetalles = new javax.swing.JButton();
         btnActualizarHistórico = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(2147483647, 668));
         setPreferredSize(new java.awt.Dimension(1040, 668));
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
         jLabel2.setText("COMPARATOR");
 
         jLabel3.setText("Ruta Proyecto:");
 
+        btnSeleccionarVersionNueva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/media/search.png"))); // NOI18N
         btnSeleccionarVersionNueva.setText("Seleccionar");
         btnSeleccionarVersionNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,8 +143,8 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane3.setRequestFocusEnabled(false);
         jScrollPane3.setVerifyInputWhenFocusTarget(false);
 
-        editorNueva.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Nueva Versión"));
         editorNueva.setEditable(false);
+        editorNueva.setBorder(javax.swing.BorderFactory.createTitledBorder("Clase de la Nueva Versión"));
         editorNueva.setAutoscrolls(false);
         editorNueva.setMaximumSize(new java.awt.Dimension(2147483647, 40));
         editorNueva.setMinimumSize(new java.awt.Dimension(118, 40));
@@ -202,7 +207,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
+                        .add(0, 7, Short.MAX_VALUE)
                         .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 464, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
                         .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 449, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -210,7 +215,7 @@ public class Interfaz extends javax.swing.JFrame {
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 467, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(17, 17, 17)
-                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
@@ -237,9 +242,9 @@ public class Interfaz extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, btnCalcular))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 300, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 300, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(191, 191, 191))
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(173, 173, 173))
         );
 
         jTabbedPane1.addTab("Comparar Archivos", jPanel1);
@@ -276,7 +281,7 @@ public class Interfaz extends javax.swing.JFrame {
         panelHistorico.setLayout(panelHistoricoLayout);
         panelHistoricoLayout.setHorizontalGroup(
             panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
+            .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 958, Short.MAX_VALUE)
             .add(panelHistoricoLayout.createSequentialGroup()
                 .add(104, 104, 104)
                 .add(btnVerDetalles)
@@ -290,47 +295,68 @@ public class Interfaz extends javax.swing.JFrame {
                 .add(panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnVerDetalles)
                     .add(btnActualizarHistórico))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 64, Short.MAX_VALUE)
                 .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 450, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("Ver historico de Cambios", panelHistorico);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/media/sync.png"))); // NOI18N
+        jButton1.setText("Actualizar");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/media/logo.PNG"))); // NOI18N
+
+        jLabel4.setText("Aplicación que permite comparar los archivos (.txt, .sql, .java, .html, .xml, .properties) de un proyecto con su versión anterior");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jLabel2)
-                .add(422, 422, 422))
-            .add(layout.createSequentialGroup()
+                .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 974, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(22, 22, 22)
+                        .add(jLabel1)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(269, 269, 269)
+                                .add(jLabel2))
+                            .add(layout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(jLabel4))))
                     .add(layout.createSequentialGroup()
-                        .add(18, 18, 18)
                         .add(jLabel3)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 746, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 656, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSeleccionarVersionNueva)))
-                .add(12, 12, 12))
+                        .add(btnSeleccionarVersionNueva)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jButton1)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(9, 9, 9)
-                .add(jLabel2)
-                .add(13, 13, 13)
+                .add(22, 22, 22)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jLabel1)
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 24, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(btnSeleccionarVersionNueva))
+                    .add(btnSeleccionarVersionNueva)
+                    .add(jButton1))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 540, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(7, 7, 7))
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 589, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -482,11 +508,13 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void btnActualizarHistóricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarHistóricoActionPerformed
         // TODO add your handling code here:
-        ModeloTabla modelo = new ModeloTabla(); 
-        ControlTabla control = new ControlTabla (modelo,this.rutaProyecto);
-        this.jScrollPane7.setViewportView(tabla);
-        this.jScrollPane7.setColumnHeaderView (tabla.getTableHeader());
-        this.tabla.setModel(modelo);
+        if(versionado){
+            ModeloTabla modelo = new ModeloTabla(); 
+            ControlTabla control = new ControlTabla (modelo,this.rutaProyecto);
+            this.jScrollPane7.setViewportView(tabla);
+            this.jScrollPane7.setColumnHeaderView (tabla.getTableHeader());
+            this.tabla.setModel(modelo);
+        }
     }//GEN-LAST:event_btnActualizarHistóricoActionPerformed
 
     /**
@@ -516,8 +544,11 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnVerDetalles;
     private javax.swing.JEditorPane editorAntigua;
     private javax.swing.JEditorPane editorNueva;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
