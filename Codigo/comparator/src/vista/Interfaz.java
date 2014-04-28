@@ -159,7 +159,7 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane4.setViewportView(treeDirectorios);
 
         lblArchivoSeleccionado.setText("Archivo Seleccionado:");
-        lblArchivoSeleccionado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblArchivoSeleccionado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         btnCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/media/code-add.png"))); // NOI18N
         btnCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -208,9 +208,15 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 498, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jTabbedPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 488, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(518, 518, 518)
+                        .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(jPanel1Layout.createSequentialGroup()
-                                .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 846, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 864, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(btnComparar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 58, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -218,14 +224,8 @@ public class Interfaz extends javax.swing.JFrame {
                             .add(jPanel1Layout.createSequentialGroup()
                                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 495, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 495, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 498, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jTabbedPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 488, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(518, 518, 518)
-                        .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -328,7 +328,7 @@ public class Interfaz extends javax.swing.JFrame {
                         .add(16, 16, 16)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
-                                .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 870, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(txtRutaVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 864, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(btnSeleccionarVersionNueva, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 58, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
