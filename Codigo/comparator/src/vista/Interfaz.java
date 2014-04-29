@@ -97,7 +97,7 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnVerDetalles = new javax.swing.JButton();
-        btnActualizarHistórico = new javax.swing.JButton();
+        btnActualizarHistorico = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -241,9 +241,8 @@ public class Interfaz extends javax.swing.JFrame {
                         .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 118, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(btnComparar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(btnCalcular, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnComparar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnCalcular, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(lblArchivoSeleccionado, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .add(jTabbedPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 164, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(16, 16, 16)
@@ -275,10 +274,10 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btnActualizarHistórico.setText("Actualizar Histórico");
-        btnActualizarHistórico.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizarHistorico.setText("Actualizar Histórico");
+        btnActualizarHistorico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarHistóricoActionPerformed(evt);
+                btnActualizarHistoricoActionPerformed(evt);
             }
         });
 
@@ -290,7 +289,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .add(104, 104, 104)
                 .add(btnVerDetalles)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 260, Short.MAX_VALUE)
-                .add(btnActualizarHistórico)
+                .add(btnActualizarHistorico)
                 .add(180, 180, 180))
             .add(panelHistoricoLayout.createSequentialGroup()
                 .add(20, 20, 20)
@@ -302,7 +301,7 @@ public class Interfaz extends javax.swing.JFrame {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panelHistoricoLayout.createSequentialGroup()
                 .add(panelHistoricoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnVerDetalles)
-                    .add(btnActualizarHistórico))
+                    .add(btnActualizarHistorico))
                 .add(8, 8, 8)
                 .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 481, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(14, 14, 14))
@@ -510,7 +509,7 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVerDetallesActionPerformed
 
-    private void btnActualizarHistóricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarHistóricoActionPerformed
+    private void btnActualizarHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarHistoricoActionPerformed
         // TODO add your handling code here:
         if(versionado){
             ModeloTabla modelo = new ModeloTabla(); 
@@ -519,7 +518,7 @@ public class Interfaz extends javax.swing.JFrame {
             this.jScrollPane7.setColumnHeaderView (tabla.getTableHeader());
             this.tabla.setModel(modelo);
         }
-    }//GEN-LAST:event_btnActualizarHistóricoActionPerformed
+    }//GEN-LAST:event_btnActualizarHistoricoActionPerformed
 
     private void txtRutaVersionNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRutaVersionNuevaActionPerformed
         // TODO add your handling code here:
@@ -545,7 +544,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizarHistórico;
+    private javax.swing.JButton btnActualizarHistorico;
     private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnComparar;
     private javax.swing.JButton btnSeleccionarVersionNueva;
