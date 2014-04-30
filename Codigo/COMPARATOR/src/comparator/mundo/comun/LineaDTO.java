@@ -7,15 +7,15 @@ package comparator.mundo.comun;
 import java.util.Objects;
 
 /**
- *
+ * Clase que permite guardar los atributos y las funcionalidades de las líneas
  * @author laynegranadosmogollon
  */
 public class LineaDTO {
     
-    private int numeroLinea;
-    private String contenido;
+    private int numeroLinea;//número de línea que posee en el archivo de donde fue capturada
+    private String contenido;// contenido de la linea física
     private String estado;// puede ser "A" de agregada, "E" de eliminada y "M" de modificada o "N" de normal
-    private boolean isLineaLogica;
+    private boolean isLineaLogica; // true si es una línea lógica y false si no lo es
 
     public LineaDTO() {
     }
@@ -58,15 +58,12 @@ public class LineaDTO {
     public void setIsLineaLogica(boolean isLineaLogica) {
         this.isLineaLogica = isLineaLogica;
     }
-    
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + Objects.hashCode(this.contenido);
-        return hash;
-    }
-
+    /**
+     * Permite evaluar si dos líneas son iguales
+     * @param obj linea a comparar
+     * @return true si son iguales, false si son diferentes.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

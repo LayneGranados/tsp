@@ -59,6 +59,7 @@ public class Comparator {
         File proyecto = new File(this.rutaNueva);
         File [] hijos = proyecto.listFiles();
         File carpetaProyecto=null;
+        //INICIA PARA VERIFICAR SI LA CARPETA SE ENCUENTRA VERSIONADA O NO
         for(int i=0;i<hijos.length&&carpetaProyecto==null;i++){
             if(hijos[i].getName().equalsIgnoreCase(".comparator")){
                 File [] carpetaComparator= hijos[i].listFiles();
@@ -66,11 +67,11 @@ public class Comparator {
                     if(carpetaComparator[j].getName().equalsIgnoreCase(".proyecto")){
                         carpetaProyecto=carpetaComparator[j];
                     }
-                    
                 }
                 
             }
         }
+        //TERMINA PARA VERIFICAR SI LA CARPETA SE ENCUENTRA VERSIONADA O NO
         if(carpetaProyecto==null){
             versionado=false;
             l.buscarEnHijo(this.rutaNueva,this.clasesVersionNueva);
@@ -82,27 +83,6 @@ public class Comparator {
             versionado=true;
         }
         
-    }
-    
-    public String[] realizarCalculos() throws IOException{
-        String[] calculos = new String[5];
-        this.crearClases();
-        LecturaArchivo l = new LecturaArchivo();
-        calculos [0]= this.compararClases(clasesVersionAntigua, clasesVersionNueva);
-        l.compararDocumentos(clasesVersionAntigua, clasesVersionNueva);
-        for(ClaseDTO n : this.clasesVersionNueva){
-            if(n.getEstado().equalsIgnoreCase("H")){
-                for(ClaseDTO a:this.clasesVersionAntigua){
-                    if(a.getNombre().equalsIgnoreCase(n.getNombre())){// arreglar para que tambien compare rutas relativas
-                        calculos[1]=n.getRuta();
-                        calculos[2]=n.getContenidoHTML();
-                        calculos[3]=a.getRuta();
-                        calculos[4]=a.getContenidoHTML();
-                    }
-                }
-            }
-        }
-        return calculos;
     }
     
     public Object[] compararProyectos() throws IOException{
@@ -133,10 +113,14 @@ public class Comparator {
                 ClaseDTO claseOld = antigua.get(j);
                 if(claseNew.equals(claseOld)){
                     existe=true;
-                    claseNew.guardarMisLineas();
-                    claseOld.guardarMisLineas();
-                    l.modificarEstadoLineas(claseOld, claseNew, true);
-                    l.modificarEstadoLineas(claseNew, claseOld, false);
+                    if(claseNew.isEsTextoPlano()){
+                        claseNew.guardarMisLineas();
+                        l.modificarEstadoLineas(claseOld, claseNew, true);
+                    }
+                    if(claseOld.isEsTextoPlano()){
+                        claseOld.guardarMisLineas();
+                        l.modificarEstadoLineas(claseNew, claseOld, false);
+                    }
                 }
             }
             if(!existe){
@@ -184,23 +168,6 @@ public class Comparator {
     }
         return "Cantidad total de Líneas Lógicas del Programa: "+this.locTotales+"\n"+"\n"+noVersionado;
 }
-    
-    public String[] compararDosClasesDadas(ClaseDTO a, ClaseDTO n) throws IOException{
-        String[] calculos = new String[4];
-        LecturaArchivo l = new LecturaArchivo();
-        
-        if(a.getRutaRelativa().equalsIgnoreCase(n.getRutaRelativa())){// arreglar para que tambien compare rutas relativas
-            n.guardarMisLineas();
-            a.guardarMisLineas();
-            l.modificarEstadoLineas(a, n, true);
-            l.modificarEstadoLineas(n, a, false);
-            calculos[0]=n.getRuta();
-            calculos[1]=n.getContenidoHTML();
-            calculos[2]=a.getRuta();
-            calculos[3]=a.getContenidoHTML();
-        }  
-        return calculos;
-    }
     
     public String[] compararDosClasesBuscandoAntigua(ClaseDTO n) throws IOException{
         String[] calculos = new String[8];
@@ -303,7 +270,7 @@ public class Comparator {
         if(lineasHistorico.size()>0){
             String linea = lineasHistorico.get(lineasHistorico.size()-1);
             HistoricoVersionDTO h = new HistoricoVersionDTO(linea);
-            version = h.getVersion()+1;
+            version = h.getVersion();
         }
         String html ="<html><p>MODIFICACIONES EN LA VERSION NUMERO "+version+"<br />";
         try {
@@ -312,32 +279,42 @@ public class Comparator {
             html+=cambiosGenerales+"<br />"+"DIFERENCIAS ENTRE ARCHIVOS "+"<br />";
             for(ClaseDTO clase : this.clasesVersionNueva){
                 if(clase.getEstado().equalsIgnoreCase("H")){
-                    int a=0, e=0, m=0;
-                    String agregada="", eliminada="", modificada="";
-                    for(int i=0;i<clase.getLineas().size();i++){
-                        LineaDTO l = clase.getLineas().get(i);
-                
-                        if(l.getEstado().equalsIgnoreCase("A")){
-                            a+=1;
-                            agregada+="["+l.getNumeroLinea()+"]"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
-                        }   
-                        if(l.getEstado().equalsIgnoreCase("E")){
-                            e+=1;
-                            eliminada+="["+l.getNumeroLinea()+"]"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
-                        }
-                        if(l.getEstado().equalsIgnoreCase("M")){
-                            m+=1;
-                            modificada+="["+l.getNumeroLinea()+"]"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
-                        }
+                    if(!clase.isEsTextoPlano()){
+                         html+="<B>"+clase.getRutaRelativa()+"</B><br />El archivo no posee un formato comparable"+"<br /<br />";
                     }
-                    if(a>0)
-                        agregada="Líneas Agregadas: "+a+"<br />"+agregada+"<br />";
-                    if(e>0)
-                        eliminada="Líneas Eliminadas: "+e+"<br />"+eliminada+"<br />";
-                    if(m>0)
-                        modificada="Líneas Modificadas: "+m+"<br />"+modificada+"<br />";
-                    if(a>0||e>0||m>0){
-                        html+=clase.getRutaRelativa()+"<br />"+agregada+eliminada+modificada;
+                    else{
+                    
+                        int a=0, e=0, m=0;
+                        String agregada="", eliminada="", modificada="";
+                        for(int i=0;i<clase.getLineas().size();i++){
+                            LineaDTO l = clase.getLineas().get(i);
+
+                            if(l.getEstado().equalsIgnoreCase("A")){
+                                a+=1;
+                                agregada+="<B>["+l.getNumeroLinea()+"]</B>"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
+                            }   
+                            if(l.getEstado().equalsIgnoreCase("E")){
+                                e+=1;
+                                eliminada+="<B>["+l.getNumeroLinea()+"]</B>"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
+                            }
+                            if(l.getEstado().equalsIgnoreCase("M")){
+                                m+=1;
+                                modificada+="<B>["+l.getNumeroLinea()+"]</B>"+" "+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+"<br />";
+                            }
+                        }
+                        if(a>0)
+                            agregada="Líneas Agregadas: "+a+"<br />"+agregada+"<br />";
+                        if(e>0)
+                            eliminada="Líneas Eliminadas: "+e+"<br />"+eliminada+"<br />";
+                        if(m>0)
+                            modificada="Líneas Modificadas: "+m+"<br />"+modificada+"<br />";
+                        if(a>0||e>0||m>0){
+                            html+="<B>"+clase.getRutaRelativa()+"</B><br />"+agregada+eliminada+modificada;
+                        }
+                        else{
+                            html+="<B>"+clase.getRutaRelativa()+"</B>";
+                        }
+                            
                     }
                 }
             }

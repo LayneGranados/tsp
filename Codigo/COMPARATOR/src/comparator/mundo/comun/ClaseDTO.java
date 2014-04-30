@@ -4,6 +4,7 @@
  */
 package comparator.mundo.comun;
 
+import comparator.mundo.utilidades.UtilidadesArchivo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -17,12 +18,12 @@ import java.util.Objects;
 public class ClaseDTO 
 {
     
-    private String nombre;
-    private String ruta;
-    private String rutaRelativa;
-    private String rutaProyecto;
-    private ArrayList<LineaDTO> lineas;
-    private String estado;
+    private String nombre;// Nombre de la clase archivo
+    private String ruta;// ruta que se usa para capturar el contenido del archivo. Ruta absoluta o ruta del disco
+    private String rutaRelativa; // ruta que tiene el archivo dentro del proyecto
+    private String rutaProyecto;//ruta del proyecto al que pertenece
+    private ArrayList<LineaDTO> lineas; // líneas que componen la clase u archivo
+    private String estado;//
     private String formato;
     private boolean esTextoPlano;
     private int cantidadLineasLogicas;
@@ -127,51 +128,51 @@ public class ClaseDTO
         this.cantidadLineasLogicas = cantidadLineasLogicas;
     }
     
+    /**
+     * Método que módifica los valores iniciales de los objetos y llama a un método para realizar el conteo
+     */
     public void guardarMisLineas()
     {
+        this.lineas=null;
+        this.lineas = new ArrayList<LineaDTO>();
+        this.setCantidadLineasLogicas(0);
         this.realizarConteo(this.getRuta());
     }
     
-    
+    /**
+     * Metodo que permite guardar en el ArrayList<LineaDTO> las líneas que posee la clase. Si el archivo es de un tipo permitido
+     * el método lee el contenido directamente del disco y lo guarda en el ArrayList.
+     * @param ruta de donde se debe leer el archivo
+     */
     private void realizarConteo(String ruta)
     {
-        FileReader fr = null;
-        BufferedReader br = null;
-        File archivo = new File(ruta);
-        
-        try {
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-            String linea;
-            int contador=0;
-            while ((linea = br.readLine()) != null) 
-            {
-                contador++;
-                boolean isLogica=this.validarLinea(linea.trim());
-                LineaDTO l = new LineaDTO(contador,linea, "N", isLogica);
-                if(isLogica){
-                    int cant = cantidadLineasLogicas;
-                    cantidadLineasLogicas = cant+1;
-                }
-                this.lineas.add(l);
-            }
-        } catch (Exception e) 
-        {
-            e.printStackTrace();
-        } finally 
-        {
+        if(this.isEsTextoPlano()){
+            ArrayList<String> lin = UtilidadesArchivo.leerLineasArchivo(ruta);
             try {
-                if (null != fr) 
-                {
-                    fr.close();
+                int contador=0;
+                for (String linea : lin){
+                    contador++;
+                    boolean isLogica=this.validarLinea(linea.trim());
+                    LineaDTO l = new LineaDTO(contador,linea, "N", isLogica);
+                    if(isLogica){
+                        int cant = cantidadLineasLogicas;
+                        cantidadLineasLogicas = cant+1;
+                    }
+                    this.lineas.add(l);
                 }
-            } 
-            catch (Exception e2) 
-            {
-                e2.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
+        else
+            this.setCantidadLineasLogicas(0);
     }
+    
+    /**
+     * Metodo que permite comparar dos clases por medio de su nombre y su ruta dento del proyecto.
+     * @param obj Clase que se desea comparar
+     * @return true si las clases son iguales o false si son diferentes
+     */
       
     @Override
     public boolean equals(Object obj) {
@@ -191,33 +192,42 @@ public class ClaseDTO
         return true;
     }
     
+    /**
+     * Método que permite calcular las cantidades de líneas agregadas, eliminadas y modificadas que posee una clase.
+     * @return vector de 3 posicion con enteros en donde la  posicion 0: cantidad lineas agregadas, 
+     * posicion 1: cantidad lineas eliminadas, posicion 2: cantidad lineas modificadas
+     */
     public int [] getCantidadTiposDeLinea(){
-        int [] cantidadTipoLineas = new int[3];// posicion 0: cantidad lineas agregadas, posicion 1: cantidad lineas eliminadas, posicion 2: cantidad lineas modificadas
-        cantidadTipoLineas[0]=0;cantidadTipoLineas[1]=0;cantidadTipoLineas[2]=0;
-        for(LineaDTO l : this.lineas){
-            int aux=0;
-            if(l.getEstado().equalsIgnoreCase("A")){
-                aux = cantidadTipoLineas[0];
-                cantidadTipoLineas[0] = aux+1;
-
+        int [] cantidadTipoLineas = new int[3];
+        cantidadTipoLineas[0]=0;
+        cantidadTipoLineas[1]=0;
+        cantidadTipoLineas[2]=0;
+        if(this.isEsTextoPlano()){
+            for(LineaDTO l : this.lineas){
+                int aux=0;
+                if(l.getEstado().equalsIgnoreCase("A")){
+                    aux = cantidadTipoLineas[0];
+                    cantidadTipoLineas[0] = aux+1;
+                }
+                else if(l.getEstado().equalsIgnoreCase("E")){
+                    aux = cantidadTipoLineas[1];
+                    cantidadTipoLineas[1] = aux+1;
+                }
+                else if(l.getEstado().equalsIgnoreCase("M")){
+                    aux = cantidadTipoLineas[2];
+                    cantidadTipoLineas[2] = aux+1;
+                }
             }
-            else if(l.getEstado().equalsIgnoreCase("E")){
-                aux = cantidadTipoLineas[1];
-                cantidadTipoLineas[1] = aux+1;
-            }
-            else if(l.getEstado().equalsIgnoreCase("M")){
-                aux = cantidadTipoLineas[2];
-                cantidadTipoLineas[2] = aux+1;
-            }
-                
         }
         return cantidadTipoLineas;
-        
     }
     
-    //F2A7A7 rojo eliminadas
-    //A7F2BE verde modificadas
-    //F7FD8B amarillo adicionadas
+    /**
+     * Método que permite mostrar las lineas que contiene una clase. Si la linea esta sombreada de color amarillo (F7FD8B) indica que se
+     * adicionó en la nueva versión, si la línea está sombreada en verde (A7F2BE), indica que la linea de modificó en la nueva versión y si
+     * la línea esta sombreada en rojo (F2A7A7), indica que la linea fue eliminada en la nuva versión.
+     * @return cadena de texto con los resultados en html
+     */
     public String getContenidoHTML(){
         String html="<html>";
         String auxHTMLAbre="";
@@ -247,13 +257,21 @@ public class ClaseDTO
                 auxContenido="== ";
             }
                 
-            html+="<p>"+auxHTMLAbre+l.getNumeroLinea()+auxContenido+l.getContenido().replaceAll("\"", "&#34;").replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;").replaceAll(">", "&#62;").replaceAll("<", "&#60;")+
+            html+="<p>"+auxHTMLAbre+l.getNumeroLinea()+auxContenido+l.getContenido()
+                    .replaceAll("\"", "&#34;")
+                    .replaceAll("\\(", "&#40;")
+                    .replaceAll("\\)", "&#41;")
+                    .replaceAll(">", "&#62;")
+                    .replaceAll("<", "&#60;")+
                     auxHTMLCierra+"</p>";
         }
         html+="</html>";
         return html;
     }
     
+    /**
+     * Metodo que permmite validar si el tipo de archivo que se quiere evaluar es permitido para evaluar dichas validaciones.
+     */
     public void isFormatValid(){
         try{
             boolean valido = false;
@@ -270,12 +288,32 @@ public class ClaseDTO
         }
     }
 
+    /**
+     * Permite evaluar si una linea de la clase corresponde a una línea lógica. Las validaciones difieren de los archivos .java 
+     * y los otros otros formatos establecidos
+     * @param linea, cadena de caracteres a evaluar
+     * @return true si la linea es lógica y false si no lo es
+    */
     private boolean validarLinea(String linea)
     {
         boolean logica=true;
-            if(linea.trim().equalsIgnoreCase("{")||linea.trim().equalsIgnoreCase("}")||linea.trim().equalsIgnoreCase("")){
+        if(this.formato.equalsIgnoreCase("java")){
+            if(linea.trim().equalsIgnoreCase("{")
+                    ||linea.trim().equalsIgnoreCase("}")
+                    ||linea.trim().equalsIgnoreCase("")
+                    ||linea.trim().equalsIgnoreCase("//")
+                    ||linea.trim().equalsIgnoreCase("/*")
+                    ||linea.trim().equalsIgnoreCase("*/")
+                    ||linea.trim().equalsIgnoreCase("*")
+                    ||linea.trim().equalsIgnoreCase("/**")
+                    ||linea.trim().equalsIgnoreCase("**/")){
                     logica=false;
             }
+        }else{
+            if(linea.trim().equalsIgnoreCase("")){
+                    logica=false;
+            }
+        }   
         return logica;
     }
 

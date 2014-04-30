@@ -59,32 +59,10 @@ private boolean countChildren(File dir, ArrayList<ClaseDTO> listado, String ruta
                 c.setRutaRelativa(c.getRuta().substring(c.getRutaProyecto().length()));
                 c.isFormatValid();
                 listado.add(c);
-            
             }
         }
     } 
     return childrenContar;  
-}
-
-public void compararDocumentos(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{
-    
-    for(int i=0;i<nueva.size();i++){
-        ClaseDTO claseNew = nueva.get(i);
-        
-        if(claseNew.getEstado().equalsIgnoreCase("H")){
-            for(int j=0;j<antigua.size();j++){
-                ClaseDTO claseOld = antigua.get(j);
-                
-                if(claseNew.equals(claseOld)){
-                    claseNew.guardarMisLineas();
-                    claseOld.guardarMisLineas();
-                    this.modificarEstadoLineas(claseOld, claseNew, true);
-                    this.modificarEstadoLineas(claseNew, claseOld, false);
-                }
-            }
-        }
-        nueva.set(i, claseNew);
-    }
 }
 
 public void modificarEstadoLineas(ClaseDTO claseOld, ClaseDTO claseNew, boolean orientacion) throws IOException{

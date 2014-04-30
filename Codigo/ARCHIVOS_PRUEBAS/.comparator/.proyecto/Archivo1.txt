@@ -1,4 +1,0 @@
-Archivo # 1
-Este es el primer archivo que se 
-nueva linea de prueba
-hace de prueba
