@@ -74,7 +74,7 @@ public class ComparatorTest {
         System.out.println("compararProyectos");
         Comparator instance = new Comparator("D:\\PruebasComparator\\PruebasProyecto3");
         instance.crearClases();
-        String result = instance.compararProyectos();
+        Object[] result = instance.compararProyectos();
         System.out.println(result);
     }
 
