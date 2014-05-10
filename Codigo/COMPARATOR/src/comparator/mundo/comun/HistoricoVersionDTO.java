@@ -23,7 +23,18 @@ public class HistoricoVersionDTO {
 
     public HistoricoVersionDTO() {
     }
-
+    
+    /**
+     * Metodo que permite crear un objeto de tipo HistoricoVersionDTO
+     * @param version version del cambio que se ha realizado
+     * @param fecha en la que se realizó el cambio de versión
+     * @param usuario que realizó el cambio de versión
+     * @param razonComentario motivo o razón por la que se realizó el cambio
+     * @param locAdicionados cantidad de LOCs adicionados
+     * @param locEliminados cantidad de LOCs eliminados
+     * @param locModificados cantidad de LOCs modificados
+     * @param locTotales cantidad de lineas logicas que tiene el proyecto
+     */
     public HistoricoVersionDTO(int version, String fecha, String usuario, String razonComentario, int locAdicionados, int locEliminados, int locModificados, int locTotales) {
         this.version = version;
         this.fecha = fecha;
@@ -35,6 +46,10 @@ public class HistoricoVersionDTO {
         this.locTotales = locTotales;
     }
     
+    /**
+     * Metodo que permite crear un método HistoricoVersionDTO a partir de una linea, la cual se obtiene del archivo historico.txt
+     * @param linea es capturada del archivo historico.txt la cual representa una version del proyecto comparado
+     */
     public HistoricoVersionDTO(String linea) {
         String [] a = linea.split("%;&");
         this.version = Integer.parseInt(a[0]);
@@ -111,6 +126,10 @@ public class HistoricoVersionDTO {
         this.locTotales = locTotales;
     }
     
+    /**
+     * Metodo que convierte los atributos de la clase HistoricoVersionDTO en un String
+     * @return linea que representa una version del proyecto comparado
+     */
     public String linea(){
         String linea ="";
         linea = this.getVersion()+"%;&"+this.getFecha()+"%;&"+this.getUsuario()+"%;&"+this.getRazonComentario()+"%;&"+this.locAdicionados+"%;&"+this.locEliminados+"%;&"+this.locModificados+"%;&"+this.locTotales;

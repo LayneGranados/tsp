@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author laynegranadosmogollon
+ * @author ClickIT
  */
 public class Comparator {
     
@@ -54,6 +54,9 @@ public class Comparator {
         this.locTotales=0;
     }
     
+    /**
+     * Método que crea los objetos de las clases en la lectura de archivos directamente en el disco.
+     */
     public void crearClases(){
         LecturaArchivo l = new LecturaArchivo();
         File proyecto = new File(this.rutaNueva);
@@ -85,6 +88,11 @@ public class Comparator {
         
     }
     
+    /**
+     * Método que permite orquestar los metodos creados que permite realizar la comparacion de archivos.
+     * @return calculos obtenidos de la comparacion.
+     * @throws IOException excepcion generada de la lectura de archivos en el disco
+     */
     public Object[] compararProyectos() throws IOException{
         this.crearClases();
         Object [] resultados = new Object[2];
@@ -93,6 +101,13 @@ public class Comparator {
         return resultados;
     }
     
+    /**
+     * Metodo que permite comparar las clases de una proyecto calculando las clases agregadas, eliminadas y modificadas mostrando la cantidad de lineas totales agregadas, eliminadas, modificadas y la cantidad de lineas lógicas totales que componen el nuevo proyecto.
+     * @param antigua compilado de las clases de la version anterior que se quiere comparar
+     * @param nueva compilado de las clases de la version nueva que se quiere comparar
+     * @return texto con formato html que muestra el resumen de las comparaciones entre dos veriones
+     * @throws IOException excepcion que puede ser generada de la lectura de archivos directamente del disco
+     */
     public String compararClases(ArrayList<ClaseDTO> antigua, ArrayList<ClaseDTO> nueva) throws IOException{
     this.locAdicionados=0;
     this.locEliminados=0;
@@ -169,25 +184,36 @@ public class Comparator {
         return "Cantidad total de Líneas Lógicas del Programa: "+this.locTotales+"\n"+"\n"+noVersionado;
 }
     
-    public String[] compararDosClasesBuscandoAntigua(ClaseDTO n) throws IOException{
+    /**
+     * Metodo que permite buscar una clase en la version guardada del proyecto dada la nueva clase  y realizar las comparaciones correspondientes calculando sus lineas agregadas, eliminadas y modificadas.
+     * @param nueva Clase del nuevo proyecto la cual permitirá buscar su clase en la version anterior para hacer la comparacio
+     * @return calculos de la comparacion de las lineas entre dos clases.
+     * @throws IOException excepcion que se genera en la lectura de archivos directamente en el disco 
+     */
+    public String[] compararDosClasesBuscandoAntigua(ClaseDTO nueva) throws IOException{
         String[] calculos = new String[8];
         for(ClaseDTO a:this.clasesVersionAntigua){
-            if(a.getRutaRelativa().equalsIgnoreCase(n.getRutaRelativa())){// arreglar para que tambien compare rutas relativas
-                calculos[0]=n.getRuta();
-                calculos[1]=n.getContenidoHTML();
+            if(a.getRutaRelativa().equalsIgnoreCase(nueva.getRutaRelativa())){// arreglar para que tambien compare rutas relativas
+                calculos[0]=nueva.getRuta();
+                calculos[1]=nueva.getContenidoHTML();
                 calculos[2]=a.getRuta();
                 calculos[3]=a.getContenidoHTML();
-                int[] cantidadCalculadaNueva = n.getCantidadTiposDeLinea();
+                int[] cantidadCalculadaNueva = nueva.getCantidadTiposDeLinea();
                 int[] cantidadCalculadaAntigua = a.getCantidadTiposDeLinea();
                 calculos[4]=String.valueOf(cantidadCalculadaNueva[0]);
                 calculos[5]=String.valueOf(cantidadCalculadaAntigua[1]);
                 calculos[6]=String.valueOf(cantidadCalculadaNueva[2]);
-                calculos[7]=String.valueOf(n.getCantidadLineasLogicas());
+                calculos[7]=String.valueOf(nueva.getCantidadLineasLogicas());
             }
         }   
         return calculos;
     }
     
+    /**
+     * Método que permite buscar una clase (que representa un archivo de cualquier tipo dentro del proyecto)
+     * @param rutaArchivoSeleccionado Ruta del archivo seleccionado desde la interfaz por la cual se buscará la clase
+     * @return ClaseDTO encontrada a partir de la ruta dada como parametro
+     */
     public ClaseDTO buscarClaseDeArchivoSeleccionado(String rutaArchivoSeleccionado){
         ClaseDTO seleccionada=null;
         for(int i=0;i<this.clasesVersionNueva.size()&&seleccionada==null;i++){
@@ -198,6 +224,12 @@ public class Comparator {
         return seleccionada;
     }
     
+    /**
+     * Metodo que orquesta los diferentes metodos creados para agregar una nueva versión.
+     * @param usuario nombre del usuario que realizó el cambio de version
+     * @param comentario informacion o razón para realizar el cambio.
+     * @return true si el procedimiento fue ejecutado correctamente.
+     */
     public boolean agregarVersion(String usuario, String comentario){
         if(!this.versionado){
             this.crearPrimeraVersion();
@@ -208,6 +240,10 @@ public class Comparator {
         return true;
     }
     
+    /**
+     * Metodo que actualiza los archivos del proyecto y guarda la nueva version modificada la cual servirá de referencia para una futura comparacion
+     * @return true si el procedimiento se ejecuto correctamente y false si no lo hizo
+     */
     private boolean actualizarVersion(){
         String separator= System.getProperty("file.separator");
         String rutaProyecto=this.rutaNueva+separator+".comparator"+separator+".proyecto";
@@ -215,6 +251,12 @@ public class Comparator {
         return true;
     }
     
+    /**
+     * Metodo que permite guardar en el archivo historico.txt una nueva linea que representa el resumen de los cambios realizados en una version.
+     * @param usuario nombre o usuario que realiza la actualizacion de la versión del proyecto en el programa COMPARATOR
+     * @param comentario Información o razón por la cual se esta haciendo la actualizacion o cambion de version
+     * @return true si el procedimiento se ejecuto correctamente y false si no lo hizo
+     */
     private boolean guardarHistoricoVersion(String usuario, String comentario){
         String separator= System.getProperty("file.separator");
         String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"historico.txt";
@@ -234,6 +276,10 @@ public class Comparator {
         return true;
     }
     
+    /**
+     * Método que crea los archivos y carpetas que permitiran guardar la informacion de las versiones agregadas y comparadas, en la primer versión se crea la carpeta .comparator, la carpeta .proyecto y los archivos detallado.txt e historico.txt
+     * @return true si la creacion fue correcta y false si fallo
+     */
     private boolean crearPrimeraVersion(){
         String separator= System.getProperty("file.separator");
         String rutaComparador=this.rutaNueva+separator+".comparator";
@@ -262,6 +308,10 @@ public class Comparator {
         this.clasesVersionNueva = clasesVersionNueva;
     }
     
+    /**
+     * Metodo que permite crear una cadena caracteres con formato html que muestra el detalle de los cambios de una version
+     * @return cadena de caracteres con formato html que muestra el detalle de los cambios realizados en una version discriminados por las clases agregadas, eliminadas y modificada y en las clases modificadas las lineas que fueron agregadas, eliminadas y modificadas.
+     */
     public String crearLineaHtmlCambiosDetalladosDeVersion(){
         String separator= System.getProperty("file.separator");
         String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"historico.txt";
@@ -326,6 +376,11 @@ public class Comparator {
         return html;
     }
     
+    /**
+     * Metodo que permite obtener el detalle de los cambios de una version del archivo detallado.txt
+     * @param version de la cual se quiere obtener el detalle de los cambios realizados.
+     * @return detlle de los cambios de una version
+     */
     public String getDetalleVersion(int version){
         String separator= System.getProperty("file.separator");
         String rutaHistorico=this.rutaNueva+separator+".comparator"+separator+"detallado.txt";

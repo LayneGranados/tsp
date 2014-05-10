@@ -16,8 +16,11 @@ public class VentanaAgregarVersion extends javax.swing.JFrame {
     private Interfaz interfaz;
     private Fachada f;
     private Comparator comparator;
+    
     /**
-     * Creates new form VentanaAgregarVersion
+     * Metodo constructor de la clase
+     * @param in objeto de la clase Interfaz.java
+     * @param comparator objeto de la clase Comparator.java
      */
     public VentanaAgregarVersion(Interfaz in, Comparator comparator) {
         this.interfaz=in;

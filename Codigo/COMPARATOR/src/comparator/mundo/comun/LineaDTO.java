@@ -19,7 +19,13 @@ public class LineaDTO {
 
     public LineaDTO() {
     }
-
+    /**
+     * Metodo que permite construir un objeto de tipo LineaDTO a partir de los parametros
+     * @param numeroLinea representa al numero de linea en el archivo fisico (en el disco)
+     * @param contenido representa lo que contiene la linea en el archivo fisico (en el disco)
+     * @param estado representa si la linea es una linea "A" - agregada, "E" - eliminada, "M" - modificada o "N" - normal en el cambio de version
+     * @param isLineaLogica representa si la linea es una linea que puede ser contada como linea logica o no
+     */
     public LineaDTO(int numeroLinea, String contenido, String estado, boolean isLineaLogica) {
         this.contenido = contenido;
         this.numeroLinea = numeroLinea; 

@@ -16,7 +16,8 @@ public class DetalleCambio extends javax.swing.JFrame {
     private String detalle;
 
     /**
-     * Creates new form DetalleCambio
+     * Metodo que permite crear un nuevo form para DetalleCambio
+     * @param detalle del cual se va a crear el detalleCambio
      */
     public DetalleCambio(String detalle) {
         initComponents();

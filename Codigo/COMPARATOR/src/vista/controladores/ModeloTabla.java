@@ -98,7 +98,8 @@ public class ModeloTabla implements TableModel
     }
     
     /**
-     * Borra del modelo la persona en la fila indicada 
+     * Metodo que permite borrar una fila de la tabla
+     * @param fila que debe ser borrada
      */
     public void borraVersion (int fila)
     {
@@ -114,7 +115,8 @@ public class ModeloTabla implements TableModel
     }
     
     /**
-     * A�ade una persona al final de la tabla
+     * Añade un objeto históricoVersion al final de la tabla
+     * @param nuevaVersion  version que va a ser agregada
      */
     public void agregaVersion (HistoricoVersionDTO nuevaVersion)
     {

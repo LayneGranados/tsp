@@ -31,8 +31,7 @@ public class LectorPropiedades {
 
     /**
      * Metodo para cargar el archivo de propiedades
-     *
-     * @return
+     * @return propiedades del archivo actualizado
      */
     public static Properties load() {
         try {

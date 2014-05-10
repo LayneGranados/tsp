@@ -139,10 +139,9 @@ public static void copyDirectory(File srcDir, File dstDir,int [] entraInicial){
     }
 
     /**
-     * Copia un solo archivo
-     * @param s
-     * @param t
-     * @throws IOException
+     * Metodo que permite copiar el contenido de un archivo en otro archivo
+     * @param s achivo de origen
+     * @param t archiv de destino
      */
     public static void copyFile(File s, File t)
     {
@@ -161,11 +160,10 @@ public static void copyDirectory(File srcDir, File dstDir,int [] entraInicial){
 
     /**
      * Copia un archivo y busca y sustituye un String dado
-     * @param source_file
-     * @param destination_file
-     * @param toFind
-     * @param toReplace
-     * @throws IOException
+     * @param source_file ruta del archivo de origen
+     * @param destination_file ruta del archivo de destino
+     * @param toFind el archivo que se va a buscar
+     * @param toReplace ruta del archivo que se va a reemplazar
      */
     public static void copyFindAndReplace(String source_file, String destination_file, String toFind, String toReplace)
     {

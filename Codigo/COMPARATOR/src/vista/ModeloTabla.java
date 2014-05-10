@@ -1,11 +1,9 @@
 package vista;
 
 /**
- * Javier Abell�n, 26 Oct 2003
  *
  * ModeloTabla.java
  *
- * Modelo de tabla para el ejmplo de uso del JTable
  */
 import comparator.mundo.comun.HistoricoVersionDTO;
 import java.util.LinkedList;
@@ -21,12 +19,7 @@ import javax.swing.table.*;
 public class ModeloTabla implements TableModel
 {
     
-    /** Lista con los datos. Cada elemento de la lista es una instancia de
-     * Persona */
     private LinkedList datos = new LinkedList();
-    
-    /** Lista de suscriptores. El JTable ser� un suscriptor de este modelo de
-     * datos */
     private LinkedList listeners = new LinkedList();
     
     
@@ -98,7 +91,8 @@ public class ModeloTabla implements TableModel
     }
     
     /**
-     * Borra del modelo la persona en la fila indicada 
+     * Borra del modelo la version en la fila indicada 
+     * @param fila de la cual se quiere borrar la version
      */
     public void borraVersion (int fila)
     {
@@ -114,7 +108,8 @@ public class ModeloTabla implements TableModel
     }
     
     /**
-     * A�ade una persona al final de la tabla
+     * Anade una nueva linea a la tabla de versiones
+     * @param nuevaVersion nueva version que desea ser agregada
      */
     public void agregaVersion (HistoricoVersionDTO nuevaVersion)
     {
@@ -134,7 +129,7 @@ public class ModeloTabla implements TableModel
     /** Adds a listener to the list that is notified each time a change
      * to the data model occurs.
      *
-     * @param	l		the TableModelListener
+     * @param	l the TableModelListener
      *
      */
     public void addTableModelListener(TableModelListener l) {

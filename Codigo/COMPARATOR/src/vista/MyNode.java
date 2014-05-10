@@ -8,8 +8,8 @@ import java.util.Vector;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
- *
- * @author laynegranadosmogollon
+ * Clase que extiende de DefaultMutableTreeNode y crea las funcionalidades necesarias
+ * @author ClickIT
  */
 public class MyNode extends DefaultMutableTreeNode{
     
